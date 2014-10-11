@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   post "/slack" => "slack#empty", constraints: EmptyConstraint.new
   post "/slack" => "slack#create"
 
+  root "slack#index"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
