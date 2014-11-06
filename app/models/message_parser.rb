@@ -7,7 +7,7 @@ class MessageParser
   def recipient_name
     beginning = trigger_word.size
     remaining = text[beginning..text.size-1]
-    remaining.strip.split.first
+    remaining.strip.split.first || ""
   end
 
   private
