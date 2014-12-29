@@ -7,10 +7,15 @@ class MessageParser
   def recipient_name
     beginning = trigger_word.size
     remaining = text[beginning..text.size-1]
-    remaining.strip.split.first || ""
+    name = remaining.strip.split.first || ""
+    clean_name(name)
   end
 
   private
 
   attr_accessor :text, :trigger_word
+
+  def clean_name(name)
+    name.gsub(/^(@+)/, "")
+  end
 end
