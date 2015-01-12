@@ -2,18 +2,22 @@ class UsernameFetcher
   NoUserInSlack = Class.new(StandardError)
 
   def call(user_tag)
-    user_tag = parse_user_tag(user_tag)
-    slack_user_info(user_tag)
+    if slack_username?(user_tag)
+      fetch_slack_username(user_tag)
+    else
+      user_tag
+    end
   rescue NoUserInSlack
-    username_from_tag(user_tag)
+    slack_bot_username(user_tag)
   end
 
   private
-  def parse_user_tag(user_tag)
-    user_tag[2..-2]
+  def slack_username?(user_tag)
+    user_tag.start_with?("<@")
   end
 
-  def slack_user_info(user_tag)
+  def fetch_slack_username(user_tag)
+    user_tag = strip_slack_user_tag(user_tag)
     json = call_slack(user_tag)
     raise NoUserInSlack unless json["ok"]
     json["user"]["name"]
@@ -35,7 +39,11 @@ class UsernameFetcher
     uri
   end
 
-  def username_from_tag(user_tag)
-    user_tag.slice(0).downcase
+  def strip_slack_user_tag(user_tag)
+    user_tag[2..-2]
+  end
+
+  def slack_bot_username(user_tag)
+    strip_slack_user_tag(user_tag).slice(0).downcase
   end
 end
