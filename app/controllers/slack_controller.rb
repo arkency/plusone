@@ -10,13 +10,15 @@ class SlackController < ApplicationController
     team.slack_team_domain = params[:team_domain]
     team.save!
 
-    sender = team.team_members.find_or_initialize_by(slack_user_name: params[:user_name])
+    sender_username = clean_name(username_fetcher.(params[:user_name]))
+    sender = team.team_members.find_or_initialize_by(slack_user_name: sender_username)
     sender.slack_user_id = params[:user_id]
     sender.save!
 
     recipient_name.present? or raise MissingRecipient
 
-    recipient = team.team_members.find_or_initialize_by(slack_user_name: recipient_name)
+    recipient_username = clean_name(username_fetcher.(recipient_name))
+    recipient = team.team_members.find_or_initialize_by(slack_user_name: recipient_username)
     recipient.save!
 
     raise CannotPlusOneYourself if sender == recipient
@@ -24,7 +26,10 @@ class SlackController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: {text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})"}
+        render json: {
+                   text: "#{sender_username}(#{sender.points}) gave +1 for #{recipient_username}(#{recipient.points})",
+                   parse: "none"
+               }
       end
     end
   rescue CannotPlusOneYourself
@@ -70,5 +75,13 @@ class SlackController < ApplicationController
     Rails.logger.warn("TEXT BYTES")
     Rails.logger.warn(params[:text].bytes.to_a.inspect)
     MessageParser.new(params[:text], params[:trigger_word]).recipient_name
+  end
+
+  def username_fetcher
+    UsernameFetcher.new
+  end
+
+  def clean_name(name)
+    name.gsub(/^(@+)/, "")
   end
 end
