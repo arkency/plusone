@@ -60,7 +60,7 @@ class SlackController < ApplicationController
   def index
     teams = Team.preload(:team_members).limit(10)
     team = teams[0]
-    team_members = team.team_members.sort_by{|tm| tm.points }.reverse
+    team_members = team ? team_members.sort_by{|tm| tm.points }.reverse : []
     render locals: {teams: teams, team_members: team_members}
   end
 
