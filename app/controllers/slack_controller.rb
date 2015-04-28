@@ -13,7 +13,7 @@ class SlackController < ApplicationController
     respond_to do |format|
       format.json do
         render json: {
-                   text: "#{sender_username}(#{sender.points}) gave +1 for #{recipient_username}(#{recipient.points})",
+                   text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
                    parse: "none"
                }
       end
