@@ -72,8 +72,6 @@ class SlackController < ApplicationController
   private
 
   def recipient_name
-    Rails.logger.warn("TEXT BYTES")
-    Rails.logger.warn(params[:text].bytes.to_a.inspect)
     MessageParser.new(params[:text], params[:trigger_word]).recipient_name
   end
 
