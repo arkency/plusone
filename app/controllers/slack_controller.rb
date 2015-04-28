@@ -6,17 +6,18 @@ class SlackController < ApplicationController
   MissingRecipient = Class.new(StandardError)
 
   def plus
-    sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
+    ActiveRecord::Base.transaction do
+      sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
 
-    raise CannotPlusOneYourself if sender == recipient
-    recipient.increment!(:points)
-
-    respond_to do |format|
-      format.json do
-        render json: {
-                   text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
-                   parse: "none"
-               }
+      raise CannotPlusOneYourself if sender == recipient
+      recipient.increment!(:points)
+      respond_to do |format|
+        format.json do
+          render json: {
+                     text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
+                     parse: "none"
+                 }
+        end
       end
     end
   rescue CannotPlusOneYourself
@@ -28,17 +29,19 @@ class SlackController < ApplicationController
   end
 
   def minus
-    sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
+    ActiveRecord::Base.transaction do
+      sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
 
-    raise CannotMinusOneYourself if sender == recipient
-    recipient.decrement!(:points)
+      raise CannotMinusOneYourself if sender == recipient
+      recipient.decrement!(:points)
 
-    respond_to do |format|
-      format.json do
-        render json: {
-                   text: "#{sender.slack_user_name}(#{sender.points}) gave -1 for #{recipient.slack_user_name}(#{recipient.points})",
-                   parse: "none"
-               }
+      respond_to do |format|
+        format.json do
+          render json: {
+                     text: "#{sender.slack_user_name}(#{sender.points}) gave -1 for #{recipient.slack_user_name}(#{recipient.points})",
+                     parse: "none"
+                 }
+        end
       end
     end
   rescue CannotMinusOneYourself
