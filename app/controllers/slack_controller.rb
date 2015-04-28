@@ -47,7 +47,7 @@ class SlackController < ApplicationController
   rescue CannotMinusOneYourself
     respond_to do |format|
       format.json do
-        render json: {text: "Don't be so hard for yourself!"}
+        render json: {text: "Don't be so hard on yourself!"}
       end
     end
   end
