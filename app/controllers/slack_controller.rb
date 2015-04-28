@@ -5,21 +5,7 @@ class SlackController < ApplicationController
   MissingRecipient = Class.new(StandardError)
 
   def create
-    # TODO: transaction ;)
-    team = Team.find_or_initialize_by(slack_team_id: params[:team_id])
-    team.slack_team_domain = params[:team_domain]
-    team.save!
-
-    sender_username = clean_name(username_fetcher.(params[:user_name]))
-    sender = team.team_members.find_or_initialize_by(slack_user_name: sender_username)
-    sender.slack_user_id = params[:user_id]
-    sender.save!
-
-    recipient_name.present? or raise MissingRecipient
-
-    recipient_username = clean_name(username_fetcher.(recipient_name))
-    recipient = team.team_members.find_or_initialize_by(slack_user_name: recipient_username)
-    recipient.save!
+    sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
 
     raise CannotPlusOneYourself if sender == recipient
     recipient.increment!(:points)
@@ -70,16 +56,19 @@ class SlackController < ApplicationController
   end
 
   private
-
-  def recipient_name
-    MessageParser.new(params[:text], params[:trigger_word]).recipient_name
+  def prepare_transaction_actors
+    PrepareTransactionActors.new
   end
 
-  def username_fetcher
-    UsernameFetcher.new
+  def team_params
+    params.slice(:team_id, :team_domain)
   end
 
-  def clean_name(name)
-    name.gsub(/^(@+)/, "")
+  def text_params
+    params.slice(:text, :trigger_word)
+  end
+
+  def user_params
+    params.slice(:user_id, :user_name)
   end
 end
