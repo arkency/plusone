@@ -18,9 +18,7 @@ Example usage:
   1. You can generate key here: https://api.slack.com/web
   2. Set environmental variable called `SLACK_API_TOKEN`
 
-# Technical details
-
-## Slack gotcha: Nicknames with `@`
+# Slack gotcha: Nicknames with `@`
 
 If we specify username nick with mention prefix `@` (e.g. `+1 @voter101`). PlusOne bot will convert that nick to
 match name without prefixing `@` character.
