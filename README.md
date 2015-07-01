@@ -1,6 +1,6 @@
 # Arkency's PlusOne Slack Bot
 
-This project is quick mock for plus-one bot. It is like giving +1 points on message board.
+This project is quick implementation for plusone bot. It is like giving +1 points on message board.
 
 Example usage:
 
