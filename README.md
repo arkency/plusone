@@ -1,10 +1,26 @@
 # Arkency's PlusOne Slack Bot
 
-This bot handles `+1` commands from Slack chat and adds score to person with given name.
+This project is quick mock for plus-one bot. It is like giving +1 points on message board.
 
-E.g. usage: `+1 voter101`
+Example usage:
 
-## Nicknames with `@`
+![example use of plusone bot](http://i.imgur.com/6loapQ5.png)
+
+# Setup
+
+1. Deploy application on publicly available server. E.g. [Heroku](http://heroku.com/)
+  1. Remember about setting up database
+  2. Run migration: `rake db:migrate`
+2. Get URL of your application.
+3. Setup `Outgoing WebHooks` on Slack Integrations page:
+  ![Slack's outgoing hook configuration](http://i.imgur.com/osQIqaW.png)
+4. Add environmental variable with your Slack API key:
+  1. You can generate key here: https://api.slack.com/web
+  2. Set environmental variable called `SLACK_API_TOKEN`
+
+# Technical details
+
+## Slack gotcha: Nicknames with `@`
 
 If we specify username nick with mention prefix `@` (e.g. `+1 @voter101`). PlusOne bot will convert that nick to
 match name without prefixing `@` character.
