@@ -2,7 +2,6 @@ class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   CannotPlusOneYourself = Class.new(StandardError)
-  CannotMinusOneYourself = Class.new(StandardError)
   MissingRecipient = Class.new(StandardError)
 
   def plus
@@ -24,30 +23,6 @@ class SlackController < ApplicationController
     respond_to do |format|
       format.json do
         render json: {text: "Nope... not gonna happen."}
-      end
-    end
-  end
-
-  def minus
-    ActiveRecord::Base.transaction do
-      sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
-
-      raise CannotMinusOneYourself if sender == recipient
-      recipient.decrement!(:points)
-
-      respond_to do |format|
-        format.json do
-          render json: {
-                     text: "#{sender.slack_user_name}(#{sender.points}) gave -1 for #{recipient.slack_user_name}(#{recipient.points})",
-                     parse: "none"
-                 }
-        end
-      end
-    end
-  rescue CannotMinusOneYourself
-    respond_to do |format|
-      format.json do
-        render json: {text: "Don't be so hard on yourself!"}
       end
     end
   end
