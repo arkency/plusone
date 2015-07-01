@@ -6,11 +6,11 @@ E.g. command: `+1 voter101`
 
 ## Nicknames with `@`
 
-If we specify someone's nick with prefix `@` (e.g. `+1 @voter101`) bot will convert given nick to 
+If we specify username nick with mention prefix `@` (e.g. `+1 @voter101`). PlusOne bot will convert that nick to 
 match name without prefixing `@` character.
 
 Unfortunatelly this operation isn't performed by simple string operation. Slack converts all 
-nicknames in this format for it's own user format looking like this:
+nicknames in this format. It uses it's own user format looking like this:
  
   * `<@USLACKBOT>` - unique ID for Slackbot
   * `<@U029FH1FH>` - ID of some user from our Slack
