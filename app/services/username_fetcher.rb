@@ -32,7 +32,7 @@ class UsernameFetcher
   def build_uri(user_tag)
     uri = URI('https://slack.com/api/users.info')
     params = {
-        token: 'xoxp-2181345045-2321579527-3389973901-7ff25a',
+        token: ENV['SLACK_API_TOKEN'],
         user: user_tag
     }
     uri.query = URI.encode_www_form(params)
