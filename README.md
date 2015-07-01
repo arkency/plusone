@@ -12,7 +12,7 @@ Example usage:
   1. Remember about setting up database
   2. Run migration: `rake db:migrate`
 2. Get URL of your application.
-3. Setup `Outgoing WebHooks` on Slack Integrations page:
+3. Setup `Outgoing WebHooks` on [Slack Integrations page](https://arkency.slack.com/services/new/outgoing-webhook)
   ![Slack's outgoing hook configuration](http://i.imgur.com/osQIqaW.png)
 4. Add environmental variable with your Slack API key:
   1. You can generate key here: https://api.slack.com/web
