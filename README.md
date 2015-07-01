@@ -2,7 +2,7 @@
 
 This bot handles `+1` commands from Slack chat and adds score to person with given name. 
 
-E.g. command: `+1 voter101`
+E.g. usage: `+1 voter101`
 
 ## Nicknames with `@`
 
