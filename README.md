@@ -32,3 +32,11 @@ nicknames in this format. It uses it's own user format looking like this:
 We can hit hit Slack API to fetch information about user hidden behind given tag. We presume that
 user whose name doesn't begin with `<@` is valid nickname and doesn't need hitting Slack API to
 decode.
+
+## About
+
+<img src="http://arkency.com/images/arkency.png" alt="Arkency" width="20%" align="left" />
+
+This repository is funded and maintained by Arkency. Check out our other [open-source projects](https://github.com/arkency).
+
+You can [read our blog](http://blog.arkency.com). We write about Rails and JavaScript development.
