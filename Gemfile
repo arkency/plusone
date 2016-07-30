@@ -9,10 +9,16 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
-gem 'sqlite3',       group: :development
-gem 'spring',        group: :development
-gem 'dotenv-rails',        group: :development
-
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
 gem 'bootstrap-material-design'
+
+group :development do
+  gem 'sqlite3'
+  gem 'spring'
+  gem 'dotenv-rails'
+end
+
+group :development, :test do
+  gem 'byebug'
+end
