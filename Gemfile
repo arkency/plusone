@@ -22,7 +22,3 @@ end
 group :development, :test do
   gem 'byebug'
 end
-
-group :test do
-  gem 'capybara'
-end
