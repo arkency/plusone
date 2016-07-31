@@ -29,7 +29,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     }
 
     post "/slack/plus", plus_params
-    post "/slack", stats_params
+    post "/slack/plus", stats_params
     response_text = JSON(response.body)["text"]
     expected_response = "user_name2: 1, user_name1: 0"
     assert_equal(response_text, expected_response)
@@ -64,7 +64,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     plus_response_text = JSON(response.body)["text"]
     expected_plus_response = "Nope... not gonna happen."
     assert_equal(plus_response_text, expected_plus_response)
-    post "/slack", stats_params
+    post "/slack/plus", stats_params
     response_text = JSON(response.body)["text"]
     expected_response = ""
     assert_equal(response_text, expected_response)

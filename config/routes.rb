@@ -17,8 +17,8 @@ Rails.application.routes.draw do
     end
   end
 
-  post "/slack" => "slack#stats", constraints: StatsConstraint.new
-  post "/slack" => "slack#empty", constraints: EmptyConstraint.new
+  post "/slack/plus" => "slack#stats", constraints: StatsConstraint.new
+  post "/slack/plus" => "slack#empty", constraints: EmptyConstraint.new
   post "/slack/plus" => "slack#plus"
   post "/slack/minus" => "slack#minus"
 
