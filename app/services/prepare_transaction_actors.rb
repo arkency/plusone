@@ -3,6 +3,7 @@ class PrepareTransactionActors
 
   def call(team_params, text_params, user_params)
     team = prepare_team(team_params)
+    @team_slack_token = team.slack_token
 
     sender_username    = fetch_name(user_params[:user_name])
     recipient_username = fetch_name(recipient_name(text_params))
@@ -22,7 +23,7 @@ class PrepareTransactionActors
   end
 
   def fetch_name(name)
-    clean_name(username_fetcher.(name))
+    clean_name(username_fetcher.(name, @team_slack_token))
   end
 
   def clean_name(name)
