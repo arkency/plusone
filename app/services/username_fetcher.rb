@@ -1,7 +1,8 @@
 class UsernameFetcher
   NoUserInSlack = Class.new(StandardError)
 
-  def call(user_tag)
+  def call(user_tag, team_slack_token)
+    @team_slack_token = team_slack_token
     if slack_username?(user_tag)
       fetch_slack_username(user_tag)
     else
@@ -32,7 +33,7 @@ class UsernameFetcher
   def build_uri(user_tag)
     uri = URI('https://slack.com/api/users.info')
     params = {
-        token: ENV['SLACK_API_TOKEN'],
+        token: @team_slack_token,
         user: user_tag
     }
     uri.query = URI.encode_www_form(params)
