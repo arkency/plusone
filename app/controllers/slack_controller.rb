@@ -3,10 +3,16 @@ class SlackController < ApplicationController
 
   CannotPlusOneYourself = Class.new(StandardError)
   MissingRecipient = Class.new(StandardError)
+  MissingSlackToken = Class.new(StandardError)
 
   def plus
     ActiveRecord::Base.transaction do
+      team = Team.find_or_initialize_by(slack_team_id: params[:team_id])
+      recipient_name = MessageParser.new(text_params[:text], text_params[:trigger_word]).recipient_name
+      raise MissingSlackToken if team.slack_token.nil? && recipient_name.start_with?("<@")
+
       sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
+
 
       raise CannotPlusOneYourself if sender == recipient
       recipient.increment!(:points)
@@ -23,6 +29,12 @@ class SlackController < ApplicationController
     respond_to do |format|
       format.json do
         render json: {text: "Nope... not gonna happen."}
+      end
+    end
+  rescue MissingSlackToken
+    respond_to do |format|
+      format.json do
+        render json: {text: "This slack team doesn't have specified slack token. Please use nickname without @"}
       end
     end
   end
