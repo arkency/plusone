@@ -48,12 +48,7 @@ class SlackController < ApplicationController
   end
 
   def stats
-    team = Team.find_or_initialize_by(slack_team_id: params[:team_id])
-    team.slack_team_domain = params[:team_domain]
-    team.save!
-
-    msg = team.team_members.sort_by{|tm| tm.points }.reverse.map{|tm| "#{tm.slack_user_name}: #{tm.points}"}.join(", ")
-
+    msg = GetStats.new.call(team_params)
     respond_to do |format|
       format.json do
         render json: {text: msg}
