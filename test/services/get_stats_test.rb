@@ -19,7 +19,7 @@ class GetStatsTest < ActiveSupport::TestCase
     
     result = GetStats.new.call(team_params)
     expected_result = ""
-    assert(result, expected_result)
+    assert_equal(result, expected_result)
   end
 
 
