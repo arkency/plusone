@@ -34,7 +34,7 @@ class SlackController < ApplicationController
   rescue MissingSlackToken
     respond_to do |format|
       format.json do
-        render json: {text: "This slack team doesn't have specified slack token. Please use nickname without @"}
+        render json: {text: "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"}
       end
     end
   end

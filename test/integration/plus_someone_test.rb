@@ -63,7 +63,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
 
     post "/slack/plus", plus_params
     response_text = JSON(response.body)["text"]
-    expected_response = "This slack team doesn't have specified slack token. Please use nickname without @"
+    expected_response = "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"
     assert_equal(response_text, expected_response)
     post "/slack/plus", stats_params
     response_text = JSON(response.body)["text"]
