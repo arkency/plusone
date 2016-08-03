@@ -19,6 +19,7 @@ class PlusOne
       }
     end
   end
+  private
 
   def prepare_transaction_actors
     PrepareTransactionActors.new(@team)
