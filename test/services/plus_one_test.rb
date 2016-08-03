@@ -4,22 +4,22 @@ class PlusOneTest < ActiveSupport::TestCase
 
   test "pluses someone with valid params" do
     team = PrepareTeam.new.call(team_params)
-    PlusOne.new.call(team, plus_params)
+    PlusOne.new(team).call(plus_params)
 
     result = GetStats.new.call(team_params)
     expected_result = "user_name2: 1, user_name1: 0"
-    assert(result, expected_result)
+    assert_equal(result, expected_result)
   end
 
   test "raises exception when try to plus one yourself" do
     team = PrepareTeam.new.call(team_params)
     assert_raises PlusOne::CannotPlusOneYourself do
-      PlusOne.new.call(team, invalid_plus_params)
+      PlusOne.new(team).call(invalid_plus_params)
     end
 
     result = GetStats.new.call(team_params)
     expected_result = ""
-    assert(result, expected_result)
+    assert_equal(result, expected_result)
   end
 
   def team_params

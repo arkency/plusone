@@ -1,29 +1,27 @@
 class PrepareTransactionActors
   class MissingRecipient < StandardError ; end
 
-  def call(team_params, text_params, user_params)
-    team = prepare_team(team_params)
-    @team_slack_token = team.slack_token
+  def initialize team
+    @team = team
+  end
 
-    sender_username    = fetch_name(user_params[:user_name])
-    recipient_username = fetch_name(recipient_name(text_params))
+  def call(params)
+
+    sender_username    = fetch_name(params[:user_name])
+    recipient_username = fetch_name(recipient_name(params.slice(:text, :trigger_word)))
 
     raise MissingRecipient unless recipient_username.present?
 
-    sender    = prepare_sender(team, sender_username, user_params[:user_id])
-    recipient = prepare_recipient(team, recipient_username)
+    sender    = prepare_sender(@team, sender_username, params[:user_id])
+    recipient = prepare_recipient(@team, recipient_username)
     [sender, recipient]
   end
 
   private
   attr_reader :username_fetcher
 
-  def prepare_team(team_params)
-    prepare_team_service.(team_params)
-  end
-
   def fetch_name(name)
-    clean_name(username_fetcher.(name, @team_slack_token))
+    clean_name(username_fetcher.(name, @team.slack_token))
   end
 
   def clean_name(name)
@@ -45,10 +43,6 @@ class PrepareTransactionActors
     recipient = team.team_members.find_or_initialize_by(slack_user_name: recipient_name)
     recipient.save!
     recipient
-  end
-
-  def prepare_team_service
-    PrepareTeam.new
   end
 
   def username_fetcher
