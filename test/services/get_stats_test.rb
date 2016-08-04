@@ -6,11 +6,19 @@ class GetStatsTest < ActiveSupport::TestCase
     team = PrepareTeam.new.call(team_params)
     team.team_members.create!(slack_user_id: "user_id",
                               slack_user_name: "user_name",
-                              points: 2
+                              points: 666
                              )
     
+    team.team_members.create!(slack_user_id: "user_id2",
+                              slack_user_name: "user_name2",
+                              points: 666
+                             )
+    team.team_members.create!(slack_user_id: "user_id3",
+                              slack_user_name: "user_name3",
+                              points: 2
+                             )
     result = GetStats.new.call(team_params)
-    expected_result = "user_name: 2"
+    expected_result = "666: user_name, user_name2\n2: user_name3"
     assert_equal(result, expected_result)
   end
 
