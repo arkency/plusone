@@ -22,7 +22,7 @@ class PlusOne
   private
 
   def prepare_transaction_actors
-    PrepareTransactionActors.new(@team)
+    PrepareTransactionActors.new(@team, SlackAdapter.new(@team.slack_token))
   end
 
 end

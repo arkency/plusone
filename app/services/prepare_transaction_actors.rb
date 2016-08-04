@@ -1,8 +1,9 @@
 class PrepareTransactionActors
   class MissingRecipient < StandardError ; end
 
-  def initialize team
+  def initialize team, slack_adapter
     @team = team
+    @slack_adapter = slack_adapter
   end
 
   def call(params)
@@ -20,7 +21,7 @@ class PrepareTransactionActors
   private
 
   def fetch_name(name)
-    clean_name(slack_adapter.(name))
+    clean_name(@slack_adapter.get_real_user_name(name))
   end
 
   def clean_name(name)
@@ -35,8 +36,4 @@ class PrepareTransactionActors
     PrepareTeamMember.new
   end
 
-
-  def slack_adapter
-    @slack_adapter ||= SlackAdapter.new(@team.slack_token)
-  end
 end
