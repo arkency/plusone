@@ -8,11 +8,18 @@ class GetStats
   private
 
   def fetch_data team
-    team.team_members.order('team_members.points DESC')
+    team.team_members
   end
 
   def format data
-    data.map{|tm| "#{tm.slack_user_name}: #{tm.points}"}.join(", ")
+    grouped_data = data.group_by(&:points)
+    grouped_data.keys
+     .sort
+     .reverse_each
+     .map do |key| 
+       members = grouped_data[key].map { |tm| tm.slack_user_name }.join(', ')
+       "#{key}: #{members}"
+     end.join("\n")
   end
 
 end
