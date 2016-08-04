@@ -1,28 +1,24 @@
 class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  CannotPlusOneYourself = Class.new(StandardError)
-  MissingRecipient = Class.new(StandardError)
-
   def plus
-    ActiveRecord::Base.transaction do
-      sender, recipient = prepare_transaction_actors.(team_params, text_params, user_params)
-
-      raise CannotPlusOneYourself if sender == recipient
-      recipient.increment!(:points)
-      respond_to do |format|
-        format.json do
-          render json: {
-                     text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
-                     parse: "none"
-                 }
-        end
+    team = PrepareTeam.new.call(team_params)
+    result = PlusOne.new(team).call(plus_params)
+    respond_to do |format|
+      format.json do
+        render json: result
       end
     end
-  rescue CannotPlusOneYourself
+  rescue PlusOne::CannotPlusOneYourself
     respond_to do |format|
       format.json do
         render json: {text: "Nope... not gonna happen."}
+      end
+    end
+  rescue PlusOne::InvalidSlackToken
+    respond_to do |format|
+      format.json do
+        render json: {text: "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"}
       end
     end
   end
@@ -36,12 +32,7 @@ class SlackController < ApplicationController
   end
 
   def stats
-    team = Team.find_or_initialize_by(slack_team_id: params[:team_id])
-    team.slack_team_domain = params[:team_domain]
-    team.save!
-
-    msg = team.team_members.sort_by{|tm| tm.points }.reverse.map{|tm| "#{tm.slack_user_name}: #{tm.points}"}.join(", ")
-
+    msg = GetStats.new.call(team_params)
     respond_to do |format|
       format.json do
         render json: {text: msg}
@@ -57,19 +48,13 @@ class SlackController < ApplicationController
   end
 
   private
-  def prepare_transaction_actors
-    PrepareTransactionActors.new
-  end
 
   def team_params
     params.slice(:team_id, :team_domain)
   end
 
-  def text_params
-    params.slice(:text, :trigger_word)
+  def plus_params
+    params.permit(:text, :trigger_word, :user_id, :user_name)
   end
 
-  def user_params
-    params.slice(:user_id, :user_name)
-  end
 end
