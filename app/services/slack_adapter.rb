@@ -1,8 +1,11 @@
-class UsernameFetcher
+class SlackAdapter
   NoUserInSlack = Class.new(StandardError)
 
-  def call(user_tag, team_slack_token)
+  def initialize(team_slack_token)
     @team_slack_token = team_slack_token
+  end
+
+  def get_real_user_name(user_tag)
     if slack_username?(user_tag)
       fetch_slack_username(user_tag)
     else
