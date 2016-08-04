@@ -7,14 +7,13 @@ class PrepareTransactionActors
   end
 
   def call(params)
-
     sender_username    = fetch_name(params[:user_name])
     recipient_username = fetch_name(recipient_name(params.slice(:text, :trigger_word)))
 
     raise MissingRecipient unless recipient_username.present?
 
-    sender    = prepare_team_member.(@team, sender_username, params[:user_id])
-    recipient = prepare_team_member.(@team, recipient_username)
+    sender    = prepare_team_member.call(@team, sender_username, params[:user_id])
+    recipient = prepare_team_member.call(@team, recipient_username)
     [sender, recipient]
   end
 

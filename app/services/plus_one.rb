@@ -9,7 +9,7 @@ class PlusOne
   def call(params)
     ActiveRecord::Base.transaction do
       recipient_name = MessageParser.new(params[:text], params[:trigger_word]).recipient_name
-      sender, recipient = prepare_transaction_actors.(params)
+      sender, recipient = prepare_transaction_actors.call(params)
       raise InvalidSlackToken if recipient.slack_user_name == 'u'
       raise CannotPlusOneYourself if sender == recipient
       recipient.increment!(:points)
