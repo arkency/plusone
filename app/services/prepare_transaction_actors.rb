@@ -12,8 +12,8 @@ class PrepareTransactionActors
 
     raise MissingRecipient unless recipient_username.present?
 
-    sender    = prepare_sender(@team, sender_username, params[:user_id])
-    recipient = prepare_recipient(@team, recipient_username)
+    sender    = prepare_team_member.(@team, sender_username, params[:user_id])
+    recipient = prepare_team_member.(@team, recipient_username)
     [sender, recipient]
   end
 
@@ -31,18 +31,10 @@ class PrepareTransactionActors
     MessageParser.new(text_params[:text], text_params[:trigger_word]).recipient_name
   end
 
-  def prepare_sender(team, sender_username, user_id)
-    sender = team.team_members.find_or_initialize_by(slack_user_name: sender_username)
-    sender.slack_user_id = user_id
-    sender.save!
-    sender
+  def prepare_team_member
+    PrepareTeamMember.new
   end
 
-  def prepare_recipient(team, recipient_name)
-    recipient = team.team_members.find_or_initialize_by(slack_user_name: recipient_name)
-    recipient.save!
-    recipient
-  end
 
   def slack_adapter
     @slack_adapter ||= SlackAdapter.new(@team.slack_token)
