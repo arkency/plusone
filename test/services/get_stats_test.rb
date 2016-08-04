@@ -19,7 +19,7 @@ class GetStatsTest < ActiveSupport::TestCase
                              )
     result = GetStats.new.call(team_params)
     expected_result = "666: user_name, user_name2\n2: user_name3"
-    assert_equal(result, expected_result)
+    assert_equal(expected_result, result)
   end
 
   test "returns empty string when no team_members present" do
@@ -27,7 +27,7 @@ class GetStatsTest < ActiveSupport::TestCase
     
     result = GetStats.new.call(team_params)
     expected_result = ""
-    assert_equal(result, expected_result)
+    assert_equal(expected_result, result)
   end
 
 
