@@ -31,8 +31,8 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     post "/slack/plus", plus_params
     post "/slack/plus", stats_params
     response_text = JSON(response.body)["text"]
-    expected_response = "user_name2: 1, user_name1: 0"
-    assert_equal(response_text, expected_response)
+    expected_response = "1: user_name2\n0: user_name1"
+    assert_equal(expected_response, response_text)
   end
 
   test "return information about missing slack_token when user with @ specified" do
@@ -68,7 +68,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     post "/slack/plus", stats_params
     response_text = JSON(response.body)["text"]
     expected_response = ""
-    assert_equal(response_text, expected_response)
+    assert_equal(expected_response, response_text)
   end
 
   test "doesnt increase points if sender is recipient" do
@@ -103,7 +103,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     post "/slack/plus", stats_params
     response_text = JSON(response.body)["text"]
     expected_response = ""
-    assert_equal(response_text, expected_response)
+    assert_equal(expected_response, response_text)
   end
 
   test "returns instruction when recipient is empty" do
