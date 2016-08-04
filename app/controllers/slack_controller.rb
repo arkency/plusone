@@ -26,7 +26,7 @@ class SlackController < ApplicationController
   def empty
     respond_to do |format|
       format.json do
-        render json: {text: "?"}
+        render json: {text: bot_instruction }
       end
     end
   end
@@ -55,6 +55,13 @@ class SlackController < ApplicationController
 
   def plus_params
     params.permit(:text, :trigger_word, :user_id, :user_name)
+  end
+
+  def bot_instruction
+    "PlusOne bot instruction:\n" +
+    "-Use '+1 @name' if you want to appreciate someone\n" +
+    "-Use '+1 !stats' to get statistics\n" +
+    "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
   end
 
 end

@@ -106,4 +106,31 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     assert_equal(response_text, expected_response)
   end
 
+  test "returns instruction when recipient is empty" do
+    team_domain = "team1"
+    team_id = "team_id1"
+    sender_name = "user_name1"
+    sender_id = "user_id1"
+    trigger_word = "+1"
+
+    plus_params = {
+      team_domain: team_domain,
+      trigger_word: trigger_word,
+      text: trigger_word,
+      team_id: team_id,
+      user_name: sender_name,
+      user_id: sender_id,
+      format: :json
+    }
+
+    post "/slack/plus", plus_params
+    plus_response_text = JSON(response.body)["text"]
+    expected_plus_response =
+      "PlusOne bot instruction:\n" +
+      "-Use '+1 @name' if you want to appreciate someone\n" +
+      "-Use '+1 !stats' to get statistics\n" +
+      "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
+    assert_equal(plus_response_text, expected_plus_response)
+  end
+
 end
