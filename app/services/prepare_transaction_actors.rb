@@ -20,7 +20,7 @@ class PrepareTransactionActors
   private
 
   def fetch_name(name)
-    clean_name(slack_adapter.(name, @team.slack_token))
+    clean_name(slack_adapter.(name))
   end
 
   def clean_name(name)
@@ -45,6 +45,6 @@ class PrepareTransactionActors
   end
 
   def slack_adapter
-    @slack_adapter ||= SlackAdapter.new
+    @slack_adapter ||= SlackAdapter.new(@team.slack_token)
   end
 end
