@@ -18,10 +18,9 @@ class PrepareTransactionActors
   end
 
   private
-  attr_reader :username_fetcher
 
   def fetch_name(name)
-    clean_name(username_fetcher.(name, @team.slack_token))
+    clean_name(slack_adapter.(name, @team.slack_token))
   end
 
   def clean_name(name)
@@ -45,7 +44,7 @@ class PrepareTransactionActors
     recipient
   end
 
-  def username_fetcher
-    @username_fetcher ||= UsernameFetcher.new
+  def slack_adapter
+    @slack_adapter ||= SlackAdapter.new
   end
 end
