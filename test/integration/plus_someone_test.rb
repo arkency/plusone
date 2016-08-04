@@ -39,8 +39,8 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     team_domain = "team1"
     team_id = "team_id1"
     sender_name = "@user_name1"
-    sender_id = "<@user_id1"
-    recipient_name = "<@user_name2"
+    sender_id = "<@user_id1>"
+    recipient_name = "<@user_name2>"
     trigger_word = "+1"
 
     stats_params = {
