@@ -7,7 +7,7 @@ class PlusOneTest < ActiveSupport::TestCase
     PlusOne.new(team).call(plus_params)
 
     result = GetStats.new.call(team_params)
-    expected_result = "user_name2: 1, user_name1: 0"
+    expected_result = "1: user_name2\n0: user_name1"
     assert_equal(result, expected_result)
   end
 
