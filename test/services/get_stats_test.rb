@@ -32,5 +32,4 @@ class GetStatsTest < ActiveSupport::TestCase
   def team_params
    { team_domain: "team1", team_id: "team_id1" }
   end
-
 end

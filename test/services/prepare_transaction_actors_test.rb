@@ -26,6 +26,4 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
       text: "+1 <@username2@>"
     }
   end
-
-
 end
