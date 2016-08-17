@@ -1,14 +1,15 @@
 class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  rescue_from PlusOne::CannotPlusOneYourself, with: :cant_plus_one_yourself
-  rescue_from PlusOne::InvalidSlackToken, with: :invalid_slack_token
-
   def plus
     team = PrepareTeam.new.call(team_params)
     result = PlusOne.new(team).call(plus_params)
 
     render json: result
+  rescue PlusOne::CannotPlusOneYourself
+    cant_plus_one_yourself
+  rescue PlusOne::InvalidSlackToken
+    invalid_slack_token
   end
 
   def empty
