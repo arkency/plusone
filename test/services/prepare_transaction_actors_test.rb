@@ -5,7 +5,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
   test "returns sender and recipient in array" do
     slack_adapter = InMemorySlackAdapter.new('valid')
     service = PrepareTransactionActors.new(team, slack_adapter)
-    sender, recipient = service.call(service_params)
+    service.call(service_params)
   end
 
   private

@@ -19,5 +19,4 @@ class InMemorySlackAdapter
   def slack_username?(user_tag)
     user_tag.start_with?("<@")
   end
-
 end

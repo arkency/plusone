@@ -13,13 +13,9 @@ class GetStats
 
   def format data
     grouped_data = data.group_by(&:points)
-    grouped_data.keys
-     .sort
-     .reverse_each
-     .map do |key| 
+    grouped_data.keys.sort.reverse_each.map do |key|
        members = grouped_data[key].map { |tm| tm.slack_user_name }.join(', ')
        "#{key}: #{members}"
      end.join("\n")
   end
-
 end

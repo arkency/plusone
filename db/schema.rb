@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160731120130) do
 
-  create_table "team_members", force: true do |t|
+  create_table "team_members", force: :cascade do |t|
     t.integer  "team_id",                     null: false
     t.string   "slack_user_id"
     t.string   "slack_user_name",             null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20160731120130) do
     t.datetime "updated_at"
   end
 
-  create_table "teams", force: true do |t|
+  create_table "teams", force: :cascade do |t|
     t.string   "slack_team_id",     null: false
     t.string   "slack_team_domain", null: false
     t.datetime "created_at"

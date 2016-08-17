@@ -34,5 +34,4 @@ class PrepareTransactionActors
   def prepare_team_member
     PrepareTeamMember.new
   end
-
 end
