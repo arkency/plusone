@@ -1,50 +1,23 @@
 class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  rescue_from PlusOne::CannotPlusOneYourself, with: :cant_plus_one_yourself
+  rescue_from PlusOne::InvalidSlackToken, with: :invalid_slack_token
+
   def plus
     team = PrepareTeam.new.call(team_params)
     result = PlusOne.new(team).call(plus_params)
-    respond_to do |format|
-      format.json do
-        render json: result
-      end
-    end
-  rescue PlusOne::CannotPlusOneYourself
-    respond_to do |format|
-      format.json do
-        render json: {text: "Nope... not gonna happen."}
-      end
-    end
-  rescue PlusOne::InvalidSlackToken
-    respond_to do |format|
-      format.json do
-        render json: {text: "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"}
-      end
-    end
+
+    render json: result
   end
 
   def empty
-    respond_to do |format|
-      format.json do
-        render json: {text: bot_instruction }
-      end
-    end
+    render json: {text: bot_instruction }
   end
 
   def stats
     msg = GetStats.new.call(team_params)
-    respond_to do |format|
-      format.json do
-        render json: {text: msg}
-      end
-    end
-  end
-
-  def index
-    teams = Team.preload(:team_members).limit(10)
-    team = teams[0]
-    team_members = team ? team.team_members.sort_by{|tm| tm.points }.reverse : []
-    render locals: {teams: teams, team_members: team_members}
+    render json: {text: msg}
   end
 
   private
@@ -64,4 +37,11 @@ class SlackController < ApplicationController
     "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
   end
 
+  def cant_plus_one_yourself
+    render json: {text: "Nope... not gonna happen."}
+  end
+
+  def invalid_slack_token
+    render json: {text: "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"}
+  end
 end

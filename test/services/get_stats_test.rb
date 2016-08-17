@@ -8,7 +8,7 @@ class GetStatsTest < ActiveSupport::TestCase
                               slack_user_name: "user_name",
                               points: 666
                              )
-    
+
     team.team_members.create!(slack_user_id: "user_id2",
                               slack_user_name: "user_name2",
                               points: 666
@@ -23,8 +23,6 @@ class GetStatsTest < ActiveSupport::TestCase
   end
 
   test "returns empty string when no team_members present" do
-    team = PrepareTeam.new.call(team_params)
-    
     result = GetStats.new.call(team_params)
     expected_result = ""
     assert_equal(expected_result, result)
@@ -34,5 +32,4 @@ class GetStatsTest < ActiveSupport::TestCase
   def team_params
    { team_domain: "team1", team_id: "team_id1" }
   end
-
 end
