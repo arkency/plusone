@@ -1,16 +1,19 @@
 class MessageParser
-  def initialize(text, trigger_word)
-    self.text = text
-    self.trigger_word = trigger_word
+
+  def initialize(text, trigger_word = nil)
+    _, @recipient, *@reason_words = text.split
   end
 
   def recipient_name
-    beginning = trigger_word.size
-    remaining = text[beginning..text.size-1]
-    remaining.strip.split.first || ""
+    recipient || ''
+  end
+
+  def reason
+    reason_words.join(' ')
   end
 
   private
 
-  attr_accessor :text, :trigger_word
+  attr_accessor :recipient, :reason_words
+
 end
