@@ -11,6 +11,9 @@ class PlusOne
       sender, recipient = prepare_transaction_actors.call(params)
       raise InvalidSlackToken if recipient.slack_user_name == 'u'
       raise CannotPlusOneYourself if sender == recipient
+
+      parser = MessageParser.new(params[:text], params[:trigger_word])
+      Plus.create(sender: sender, recipient: recipient, reason: parser.reason, channel: params[:channel_name])
       recipient.increment!(:points)
 
       return {
