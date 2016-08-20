@@ -11,23 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731120130) do
+ActiveRecord::Schema.define(version: 20160820070323) do
+
+  create_table "pluses", force: :cascade do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "reason"
+    t.string   "channel"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "pluses", ["recipient_id"], name: "index_pluses_on_recipient_id"
+  add_index "pluses", ["sender_id"], name: "index_pluses_on_sender_id"
 
   create_table "team_members", force: :cascade do |t|
-    t.integer  "team_id",                     null: false
-    t.string   "slack_user_id"
-    t.string   "slack_user_name",             null: false
-    t.integer  "points",          default: 0, null: false
+    t.integer  "team_id",                                 null: false
+    t.string   "slack_user_id",   limit: 255
+    t.string   "slack_user_name", limit: 255,             null: false
+    t.integer  "points",                      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "slack_team_id",     null: false
-    t.string   "slack_team_domain", null: false
+    t.string   "slack_team_id",     limit: 255, null: false
+    t.string   "slack_team_domain", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slack_token"
+    t.string   "slack_token",       limit: 255
   end
 
 end
