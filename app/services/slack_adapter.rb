@@ -6,11 +6,10 @@ class SlackAdapter
   end
 
   def get_real_user_name(user_tag)
-    sanitized_tag = sanitize_username(user_tag)
-    if slack_username?(sanitized_tag)
-      fetch_slack_username(sanitized_tag)
+    if slack_username?(user_tag)
+      fetch_slack_username(user_tag)
     else
-      sanitized_tag
+      sanitize_username(user_tag)
     end
   rescue NoUserInSlack
     slack_bot_username(user_tag)
@@ -53,7 +52,8 @@ class SlackAdapter
   end
 
   def sanitize_username name
-    name.match(/((\w+)|<@\w+>)/).to_s
+    name = name.split('|').last if name.start_with?('<http') 
+    name.match(/[\w\-\.]*\w+/).to_s
   end
 
 end
