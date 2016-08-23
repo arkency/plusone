@@ -8,12 +8,12 @@ Rails.application.routes.draw do
     end
   end
 
-  class GiftersConstraint
+  class GiversConstraint
     def matches?(request)
       MessageParser.new(
         request.request_parameters['text'],
         request.request_parameters['trigger_word']
-      ).recipient_name == "!gifters"
+      ).recipient_name == "!givers"
     end
   end
 
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   end
 
   post "/slack/plus" => "slack#stats", constraints: StatsConstraint.new
-  post "/slack/plus" => "slack#gifters", constraints: GiftersConstraint.new
+  post "/slack/plus" => "slack#givers", constraints: GiversConstraint.new
   post "/slack/plus" => "slack#empty", constraints: EmptyConstraint.new
   post "/slack/plus" => "slack#plus"
   post "/slack/minus" => "slack#minus"

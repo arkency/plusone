@@ -1,4 +1,4 @@
-class GetGiftersStats
+class GetGiversStats
   def call(team_params)
     team = PrepareTeam.new.call(team_params)
     data = fetch_data(team)

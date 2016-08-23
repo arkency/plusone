@@ -129,7 +129,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
       "PlusOne bot instruction:\n" +
       "-Use '+1 @name' if you want to appreciate someone\n" +
       "-Use '+1 !stats' to get statistics\n" +
-      "-Use '+1 !gifters' to get gifters statistics\n" +
+      "-Use '+1 !givers' to get givers statistics\n" +
       "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
     assert_equal(plus_response_text, expected_plus_response)
   end
