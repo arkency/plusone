@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731120130) do
+ActiveRecord::Schema.define(version: 20160823191631) do
+
+  create_table "pluses", force: :cascade do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "channel"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "pluses", ["recipient_id"], name: "index_pluses_on_recipient_id"
+  add_index "pluses", ["sender_id"], name: "index_pluses_on_sender_id"
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "team_id",                     null: false
