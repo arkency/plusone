@@ -2,12 +2,16 @@ require 'test_helper'
 
 class PlusOneTest < ActiveSupport::TestCase
 
-  test "pluses someone with valid params" do
+  test "pluses someone and creates plus instance with valid params" do
     team = PrepareTeam.new.call(team_params)
     PlusOne.new(team).call(plus_params)
 
     result = GetStats.new.call(team_params)
     expected_result = "1: user_name2\n0: user_name1"
+
+    plus = Plus.last
+    assert(plus, "Plus instance wasn't created")
+
     assert_equal(result, expected_result)
   end
 
