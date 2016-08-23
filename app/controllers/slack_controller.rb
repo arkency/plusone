@@ -28,7 +28,7 @@ class SlackController < ApplicationController
   end
 
   def plus_params
-    params.permit(:text, :trigger_word, :user_id, :user_name, :channel)
+    params.permit(:text, :trigger_word, :user_id, :user_name)
   end
 
   def bot_instruction

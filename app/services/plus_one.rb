@@ -12,7 +12,7 @@ class PlusOne
       raise InvalidSlackToken if recipient.slack_user_name == 'u'
       raise CannotPlusOneYourself if sender == recipient
       recipient.increment!(:points)
-      Plus.create(recipient: recipient, sender: sender, channel: params[:channel])
+      Plus.create(recipient: recipient, sender: sender)
 
       return {
         text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
