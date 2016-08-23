@@ -11,17 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823191631) do
-
-  create_table "pluses", force: :cascade do |t|
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "pluses", ["recipient_id"], name: "index_pluses_on_recipient_id"
-  add_index "pluses", ["sender_id"], name: "index_pluses_on_sender_id"
+ActiveRecord::Schema.define(version: 20160823213239) do
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "team_id",                     null: false
@@ -39,5 +29,15 @@ ActiveRecord::Schema.define(version: 20160823191631) do
     t.datetime "updated_at"
     t.string   "slack_token"
   end
+
+  create_table "upvotes", force: :cascade do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "upvotes", ["recipient_id"], name: "index_upvotes_on_recipient_id"
+  add_index "upvotes", ["sender_id"], name: "index_upvotes_on_sender_id"
 
 end
