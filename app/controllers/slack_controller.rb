@@ -21,6 +21,11 @@ class SlackController < ApplicationController
     render json: {text: msg}
   end
 
+  def gifters
+    msg = GetGiftersStats.new.call(team_params)
+    render json: {text: msg}
+  end
+
   private
 
   def team_params

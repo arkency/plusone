@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PlusOneTest < ActiveSupport::TestCase
 
-  test "pluses someone and creates plus instance with valid params" do
+  test "pluses someone with valid params" do
     team = PrepareTeam.new.call(team_params)
     PlusOne.new(team).call(plus_params)
 
