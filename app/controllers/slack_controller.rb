@@ -40,6 +40,7 @@ class SlackController < ApplicationController
     "PlusOne bot instruction:\n" +
     "-Use '+1 @name' if you want to appreciate someone\n" +
     "-Use '+1 !stats' to get statistics\n" +
+    "-Use '+1 !gifters' to get gifters statistics\n" +
     "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
   end
 
