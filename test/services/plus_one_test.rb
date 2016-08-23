@@ -8,10 +8,6 @@ class PlusOneTest < ActiveSupport::TestCase
 
     result = GetStats.new.call(team_params)
     expected_result = "1: user_name2\n0: user_name1"
-
-    plus = Plus.last
-    assert(plus, "Plus instance wasn't created")
-
     assert_equal(result, expected_result)
   end
 
