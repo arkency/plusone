@@ -3,7 +3,6 @@ class CreatePluses < ActiveRecord::Migration
     create_table :pluses do |t|
       t.references :sender, index: true
       t.references :recipient, index: true
-      t.string :channel
 
       t.timestamps null: false
     end

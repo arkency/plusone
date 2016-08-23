@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20160823191631) do
   create_table "pluses", force: :cascade do |t|
     t.integer  "sender_id"
     t.integer  "recipient_id"
-    t.string   "channel"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
