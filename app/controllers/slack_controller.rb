@@ -21,6 +21,11 @@ class SlackController < ApplicationController
     render json: {text: msg}
   end
 
+  def givers
+    msg = GetGiversStats.new.call(team_params)
+    render json: {text: msg}
+  end
+
   private
 
   def team_params
@@ -35,6 +40,7 @@ class SlackController < ApplicationController
     "PlusOne bot instruction:\n" +
     "-Use '+1 @name' if you want to appreciate someone\n" +
     "-Use '+1 !stats' to get statistics\n" +
+    "-Use '+1 !givers' to get givers statistics\n" +
     "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
   end
 
