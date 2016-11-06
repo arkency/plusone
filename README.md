@@ -6,6 +6,9 @@ Example usage:
 
 ![example use of plusone bot](http://i.imgur.com/6loapQ5.png)
 
+You can also +1 any string or even an emoticon. We don't limit it to just the valid usernames on Slack. 
+One usecase is to create a custom Slack emoticon for the people and then use the emoticons when +1'ing. This makes a nice visual effect.
+
 # Setup
 
 1. Deploy application on publicly available server. E.g. [Heroku](http://heroku.com/)
