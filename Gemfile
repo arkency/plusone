@@ -4,6 +4,7 @@ ruby '2.3.1'
 
 gem 'rails', '4.2.6'
 gem 'pg'
+gem 'rails_event_store'
 gem 'rails_12factor', group: :production
 
 group :development do

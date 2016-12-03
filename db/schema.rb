@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823213239) do
+ActiveRecord::Schema.define(version: 20161203223814) do
+
+  create_table "event_store_events", force: :cascade do |t|
+    t.string   "stream",     null: false
+    t.string   "event_type", null: false
+    t.string   "event_id",   null: false
+    t.text     "metadata"
+    t.text     "data",       null: false
+    t.datetime "created_at", null: false
+  end
+
+  add_index "event_store_events", ["created_at"], name: "index_event_store_events_on_created_at"
+  add_index "event_store_events", ["event_id"], name: "index_event_store_events_on_event_id", unique: true
+  add_index "event_store_events", ["event_type"], name: "index_event_store_events_on_event_type"
+  add_index "event_store_events", ["stream"], name: "index_event_store_events_on_stream"
 
   create_table "team_members", force: :cascade do |t|
     t.integer  "team_id",                     null: false
