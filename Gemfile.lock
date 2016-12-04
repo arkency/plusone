@@ -126,6 +126,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aggregate_root
   byebug
   dotenv-rails
   pg
