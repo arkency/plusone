@@ -3,12 +3,20 @@ class SlackController < ApplicationController
 
   def plus
     team = PrepareTeam.new.call(team_params)
-    result = PlusOne.new(team).call(plus_params)
+    upvote_uid = SecureRandom.uuid
+    cmd = Command::GiveUpvote.new(team_id: team.id, params: plus_params, upvote_uid: upvote_uid)
+    execute(cmd)
 
+    upvote = Upvote.find_by(uid: upvote_uid)
+    result = 
+      {
+        text: "#{upvote.sender.slack_user_name}(#{upvote.sender.points}) gave +1 for #{upvote.recipient.slack_user_name}(#{upvote.recipient.points})",
+        parse: "none"
+      }
     render json: result
-  rescue PlusOne::CannotPlusOneYourself
+  rescue Denormalizers::UpvoteGiven::CannotPlusOneYourself
     cant_plus_one_yourself
-  rescue PlusOne::InvalidSlackToken
+  rescue Denormalizers::UpvoteGiven::InvalidSlackToken
     invalid_slack_token
   end
 
