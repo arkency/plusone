@@ -4,8 +4,8 @@ module Domain
     class CannotUpvoteYourself < StandardError; end
     class InvalidSlackToken < StandardError; end
 
-    def initialize(uid = generate_uuid)
-      @uid = uid
+    def initialize(uuid = generate_uuid)
+      @uuid = uuid
     end
 
     def give_upvote(team_id, params)
@@ -13,11 +13,11 @@ module Domain
       sender, recipient = prepare_transaction_actors(team).call(params)
       raise InvalidSlackToken if recipient.slack_user_name == 'u'
       raise CannotUpvoteYourself if sender == recipient
-      apply Events::UpvoteGiven.new(data: {upvote_uid: uid, sender_id: sender.id, recipient_id: recipient.id})
+      apply Events::UpvoteGiven.new(data: {upvote_uuid: uuid, sender_id: sender.id, recipient_id: recipient.id})
     end
 
     private
-    attr_reader :uid
+    attr_reader :uuid
 
     def prepare_transaction_actors(team)
       PrepareTransactionActors.new(team, SlackAdapter.new(team.slack_token))

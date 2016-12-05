@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161204184224) do
+ActiveRecord::Schema.define(version: 20161205212622) do
 
   create_table "event_store_events", force: :cascade do |t|
     t.string   "stream",     null: false
@@ -49,10 +49,11 @@ ActiveRecord::Schema.define(version: 20161204184224) do
     t.integer  "recipient_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "uid"
+    t.string   "uuid"
   end
 
   add_index "upvotes", ["recipient_id"], name: "index_upvotes_on_recipient_id"
   add_index "upvotes", ["sender_id"], name: "index_upvotes_on_sender_id"
+  add_index "upvotes", ["uuid"], name: "index_upvotes_on_uuid"
 
 end

@@ -3,13 +3,13 @@ class SlackController < ApplicationController
 
   def plus
     team = PrepareTeam.new.call(team_params)
-    upvote_uid = SecureRandom.uuid
+    upvote_uuid = SecureRandom.uuid
     ActiveRecord::Base.transaction do
-      cmd = Command::GiveUpvote.new(team_id: team.id, params: plus_params, upvote_uid: upvote_uid)
+      cmd = Command::GiveUpvote.new(team_id: team.id, params: plus_params, upvote_uuid: upvote_uuid)
       command_bus.(cmd)
     end
 
-    upvote = Upvote.find_by(uid: upvote_uid)
+    upvote = Upvote.find_by(uuid: upvote_uuid)
     result = 
       {
         text: "#{upvote.sender.slack_user_name}(#{upvote.sender.points}) gave +1 for #{upvote.recipient.slack_user_name}(#{upvote.recipient.points})",
