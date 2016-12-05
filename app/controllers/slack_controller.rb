@@ -3,12 +3,23 @@ class SlackController < ApplicationController
 
   def plus
     team = PrepareTeam.new.call(team_params)
-    result = PlusOne.new(team).call(plus_params)
+    upvote_uid = SecureRandom.uuid
+    ActiveRecord::Base.transaction do
+      cmd = Command::GiveUpvote.new(team_id: team.id, params: plus_params, upvote_uid: upvote_uid)
+      command_bus.(cmd)
+    end
+
+    upvote = Upvote.find_by(uid: upvote_uid)
+    result = 
+      {
+        text: "#{upvote.sender.slack_user_name}(#{upvote.sender.points}) gave +1 for #{upvote.recipient.slack_user_name}(#{upvote.recipient.points})",
+        parse: "none"
+      }
 
     render json: result
-  rescue PlusOne::CannotPlusOneYourself
-    cant_plus_one_yourself
-  rescue PlusOne::InvalidSlackToken
+  rescue Domain::Sender::CannotUpvoteYourself
+    cant_upvote_yourself
+  rescue Domain::Sender::InvalidSlackToken
     invalid_slack_token
   end
 
@@ -44,7 +55,7 @@ class SlackController < ApplicationController
     "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
   end
 
-  def cant_plus_one_yourself
+  def cant_upvote_yourself
     render json: {text: "Nope... not gonna happen."}
   end
 
