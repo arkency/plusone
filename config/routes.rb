@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       MessageParser.new(
         request.request_parameters['text'],
         request.request_parameters['trigger_word']
-      ).recipient_name == "!stats"
+      ).first_recipient == "!stats"
     end
   end
 
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       MessageParser.new(
         request.request_parameters['text'],
         request.request_parameters['trigger_word']
-      ).recipient_name == "!givers"
+      ).first_recipient == "!givers"
     end
   end
 
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       MessageParser.new(
         request.request_parameters['text'],
         request.request_parameters['trigger_word']
-      ).recipient_name.empty?
+      ).first_recipient.empty?
     end
   end
 

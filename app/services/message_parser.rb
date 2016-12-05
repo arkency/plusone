@@ -4,7 +4,7 @@ class MessageParser
     self.trigger_word = trigger_word
   end
 
-  def recipient_name
+  def first_recipient
     recipients.first || ''
   end
 

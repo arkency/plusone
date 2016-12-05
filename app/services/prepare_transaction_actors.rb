@@ -28,7 +28,7 @@ class PrepareTransactionActors
   end
 
   def recipient_name(text_params)
-    MessageParser.new(text_params[:text], text_params[:trigger_word]).recipient_name
+    MessageParser.new(text_params[:text], text_params[:trigger_word]).first_recipient
   end
 
   def prepare_team_member

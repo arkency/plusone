@@ -2,8 +2,8 @@ require 'test_helper'
 
 class MessageParserTest < ActiveSupport::TestCase
 
-  test "recipient_name returns first recipient from message" do
-    recipient = service.recipient_name
+  test "first_recipient returns first recipient from message" do
+    recipient = service.first_recipient
     assert_equal(username1, recipient)
   end 
 
@@ -12,9 +12,9 @@ class MessageParserTest < ActiveSupport::TestCase
     assert_equal([username1, username2], recipients)
   end
 
-  test "recipient_name returns empty string if it doesnt have recipient" do
+  test "first_recipient returns empty string if it doesnt have recipient" do
     service = MessageParser.new("+1", trigger_word)
-    recipient = service.recipient_name
+    recipient = service.first_recipient
     assert_equal("", recipient)
   end
 
