@@ -8,8 +8,16 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     sender, recipients = service.call(service_params)
     assert_equal('username', sender.slack_user_name)
     assert_equal('username2', recipients.first.slack_user_name)
+  end
+
+  test "returns sender and multiplate recipients with names from slack in array" do
+    slack_adapter = InMemorySlackAdapter.new('valid')
+    service = PrepareTransactionActors.new(team, slack_adapter)
+    sender, recipients = service.call(service_params.merge(text: "+1 <@username2> <@username3>"))
+    assert_equal('username', sender.slack_user_name)
+    assert_equal(['username2', 'username3'], recipients.map(&:slack_user_name))
   end 
-  
+
   test "returns recipient with sanitized name with dots" do
     slack_adapter = SlackAdapter.new('valid')
     service = PrepareTransactionActors.new(team, slack_adapter)
