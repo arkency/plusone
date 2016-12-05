@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.3'
 
 gem 'aggregate_root'
-gem 'arkency-command_bus'
+gem 'arkency-command_bus', require: false
 gem 'rails', '4.2.6'
 gem 'pg'
 gem 'rails_12factor', group: :production
