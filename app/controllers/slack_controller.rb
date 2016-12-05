@@ -12,7 +12,7 @@ class SlackController < ApplicationController
     upvote = Upvote.find_by(uuid: upvote_uuid)
     result = 
       {
-        text: "#{upvote.sender.slack_user_name}(#{upvote.sender.points}) gave +1 for #{upvote.recipient.slack_user_name}(#{upvote.recipient.points})",
+        text: "#{upvote.sender.slack_user_name}(#{upvote.sender.points}) gave +1 for #{upvote.recipients.first.slack_user_name}(#{upvote.recipients.first.points})",
         parse: "none"
       }
 

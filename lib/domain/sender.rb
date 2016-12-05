@@ -11,10 +11,11 @@ module Domain
     def give_upvote(team_id, params)
       team = Team.find(team_id)
       sender, recipients = prepare_transaction_actors(team).call(params)
-      recipient = recipients.first
-      raise InvalidSlackToken if recipient.slack_user_name == 'u'
-      raise CannotUpvoteYourself if sender == recipient
-      apply Events::UpvoteGiven.new(data: {upvote_uuid: uuid, sender_id: sender.id, recipient_id: recipient.id})
+      recipients_ids = recipients.map(&:id)
+      recipients_ids.delete(sender.id)
+      raise InvalidSlackToken if recipients.any? { |rc| rc.slack_user_name == 'u' }
+      raise CannotUpvoteYourself if recipients_ids.empty?
+      apply Events::UpvoteGiven.new(data: {upvote_uuid: uuid, sender_id: sender.id, recipients_ids: recipients_ids})
     end
 
     private
@@ -25,7 +26,9 @@ module Domain
     end
 
     def apply_upvote_given(event)
-      TeamMember.find(event.data[:recipient_id]).increment!(:points)
+      TeamMember.where(id: event.data[:recipients_ids]).each do |tm|
+        tm.increment!(:points)
+      end
     end
   end
 end
