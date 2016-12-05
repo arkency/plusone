@@ -10,7 +10,8 @@ module Domain
 
     def give_upvote(team_id, params)
       team = Team.find(team_id)
-      sender, recipient = prepare_transaction_actors(team).call(params)
+      sender, recipients = prepare_transaction_actors(team).call(params)
+      recipient = recipients.first
       raise InvalidSlackToken if recipient.slack_user_name == 'u'
       raise CannotUpvoteYourself if sender == recipient
       apply Events::UpvoteGiven.new(data: {upvote_uuid: uuid, sender_id: sender.id, recipient_id: recipient.id})
