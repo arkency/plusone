@@ -4,10 +4,14 @@ class MessageParser
     self.trigger_word = trigger_word
   end
 
-  def recipient_name
+  def first_recipient
+    recipients.first || ''
+  end
+
+  def recipients
     beginning = trigger_word.size
     remaining = text[beginning..text.size-1]
-    remaining.strip.split.first || ""
+    remaining.strip.split
   end
 
   private

@@ -8,13 +8,13 @@ class PrepareTransactionActors
 
   def call(params)
     sender_username    = fetch_name(params[:user_name])
-    recipient_username = fetch_name(recipient_name(params.slice(:text, :trigger_word)))
+    recipients_usernames = fetch_recipients(params.slice(:text, :trigger_word)).map(&method(:fetch_name))
 
-    raise MissingRecipient unless recipient_username.present?
+    raise MissingRecipient unless recipients_usernames.any?
+    recipients = recipients_usernames.map { |name| prepare_team_member.call(@team, name) }
 
     sender    = prepare_team_member.call(@team, sender_username, params[:user_id])
-    recipient = prepare_team_member.call(@team, recipient_username)
-    [sender, recipient]
+    [sender, recipients]
   end
 
   private
@@ -27,9 +27,13 @@ class PrepareTransactionActors
     name.gsub(/^(@+)/, "")
   end
 
-  def recipient_name(text_params)
-    MessageParser.new(text_params[:text], text_params[:trigger_word]).recipient_name
+  def fetch_recipients(text_params)
+    MessageParser.new(text_params[:text], text_params[:trigger_word]).recipients
   end
+
+  # def recipient_name(text_params)
+  #   MessageParser.new(text_params[:text], text_params[:trigger_word]).first_recipient
+  # end
 
   def prepare_team_member
     PrepareTeamMember.new

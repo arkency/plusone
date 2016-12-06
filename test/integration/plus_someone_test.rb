@@ -35,6 +35,40 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     assert_equal(expected_response, response_text)
   end
 
+  test "increases points for multiple recipients" do
+    team_domain = "team1"
+    team_id = "team_id1"
+    sender_name = "user_name1"
+    sender_id = "user_id1"
+    first_recipient_name = "recipient_1"
+    second_recipient_name = "recipient_2"
+    trigger_word = "+1"
+
+    stats_params = {
+      trigger_word: trigger_word,
+      text: "#{trigger_word} !stats",
+      team_id: team_id,
+      team_domain: team_domain,
+      format: :json
+    }
+
+    plus_params = {
+      team_domain: team_domain,
+      trigger_word: trigger_word,
+      text: "#{trigger_word} #{first_recipient_name} #{second_recipient_name}",
+      team_id: team_id,
+      user_name: sender_name,
+      user_id: sender_id,
+      format: :json
+    }
+
+    post "/slack/plus", plus_params
+    post "/slack/plus", stats_params
+    response_text = JSON(response.body)["text"]
+    expected_response = "1: #{first_recipient_name}, #{second_recipient_name}\n0: user_name1"
+    assert_equal(expected_response, response_text)
+  end
+
   test "return information about missing slack_token when user with @ specified" do
     team_domain = "team1"
     team_id = "team_id1"
