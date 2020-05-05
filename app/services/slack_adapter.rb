@@ -1,3 +1,5 @@
+require 'net/http'
+
 class SlackAdapter
   NoUserInSlack = Class.new(StandardError)
 
