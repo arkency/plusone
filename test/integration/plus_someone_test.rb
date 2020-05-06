@@ -28,8 +28,8 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
       format: :json
     }
 
-    post "/slack/plus", plus_params
-    post "/slack/plus", stats_params
+    post "/slack/plus", params: plus_params
+    post "/slack/plus", params: stats_params
     response_text = JSON(response.body)["text"]
     expected_response = "1: user_name2\n0: user_name1"
     assert_equal(expected_response, response_text)
@@ -61,11 +61,11 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
       format: :json
     }
 
-    post "/slack/plus", plus_params
+    post "/slack/plus", params: plus_params
     response_text = JSON(response.body)["text"]
     expected_response = "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"
     assert_equal(response_text, expected_response)
-    post "/slack/plus", stats_params
+    post "/slack/plus", params: stats_params
     response_text = JSON(response.body)["text"]
     expected_response = ""
     assert_equal(expected_response, response_text)
@@ -96,11 +96,11 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
       format: :json
     }
 
-    post "/slack/plus", plus_params
+    post "/slack/plus", params: plus_params
     plus_response_text = JSON(response.body)["text"]
     expected_plus_response = "Nope... not gonna happen."
     assert_equal(plus_response_text, expected_plus_response)
-    post "/slack/plus", stats_params
+    post "/slack/plus", params: stats_params
     response_text = JSON(response.body)["text"]
     expected_response = ""
     assert_equal(expected_response, response_text)
@@ -123,7 +123,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
       format: :json
     }
 
-    post "/slack/plus", plus_params
+    post "/slack/plus", params: plus_params
     plus_response_text = JSON(response.body)["text"]
     expected_plus_response =
       "PlusOne bot instruction:\n" +
