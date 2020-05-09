@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.1'
 
-gem 'rails', '6.0.3.rc1'
+gem 'rails', '6.0.3'
 gem 'pg'
 gem 'rails_12factor', group: :production
 gem 'uglifier'
