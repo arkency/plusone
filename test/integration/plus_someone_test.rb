@@ -2,37 +2,9 @@ require 'test_helper'
 
 class PlusSomeoneTest < ActionDispatch::IntegrationTest
 
-  test "increases points for recipient" do
-    team_domain = "team1"
-    team_id = "team_id1"
-    sender_name = "user_name1"
-    sender_id = "user_id1"
-    recipient_name = "user_name2"
-    trigger_word = "+1"
-
-    stats_params = {
-      trigger_word: trigger_word,
-      text: "#{trigger_word} !stats",
-      team_id: team_id,
-      team_domain: team_domain,
-      format: :json
-    }
-
-    plus_params = {
-      team_domain: team_domain,
-      trigger_word: trigger_word,
-      text: "#{trigger_word} #{recipient_name}",
-      team_id: team_id,
-      user_name: sender_name,
-      user_id: sender_id,
-      format: :json
-    }
-
-    post "/slack/plus", params: plus_params
-    post "/slack/plus", params: stats_params
-    response_text = JSON(response.body)["text"]
-    expected_response = "1: user_name2\n0: user_name1"
-    assert_equal(expected_response, response_text)
+  def test_add_points_see_stats
+    add_points
+    see_stats
   end
 
   test "return information about missing slack_token when user with @ specified" do
@@ -132,6 +104,32 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
       "-Use '+1 !givers' to get givers statistics\n" +
       "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
     assert_equal(plus_response_text, expected_plus_response)
+  end
+  private
+
+  def see_stats
+    post "/slack/plus", params: {
+      trigger_word: "+1",
+      text: "+1 !stats",
+      team_id: "team_id1",
+      team_domain: "team1",
+      format: :json
+    }
+    response_text = JSON(response.body)["text"]
+    expected_response = "1: user_name2\n0: user_name1"
+    assert_equal(expected_response, response_text)
+  end
+
+  def add_points
+    post "/slack/plus", params: {
+      team_domain: "team1",
+      trigger_word: "+1",
+      text: "+1 user_name2",
+      team_id: "team_id1",
+      user_name: "user_name1",
+      user_id: "user_id1",
+      format: :json
+    }
   end
 
 end
