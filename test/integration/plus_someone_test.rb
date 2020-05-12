@@ -5,6 +5,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
   def test_add_points_see_stats
     add_points
     see_stats
+    see_givers
   end
 
   test "return information about missing slack_token when user with @ specified" do
@@ -117,6 +118,19 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     }
     response_text = JSON(response.body)["text"]
     expected_response = "1: user_name2\n0: user_name1"
+    assert_equal(expected_response, response_text)
+  end
+
+  def see_givers
+    post "/slack/plus", params: {
+      trigger_word: "+1",
+      text: "+1 !givers",
+      team_id: "team_id1",
+      team_domain: "team1",
+      format: :json
+    }
+    response_text = JSON(response.body)["text"]
+    expected_response = "1: user_name1\n0: user_name2"
     assert_equal(expected_response, response_text)
   end
 
