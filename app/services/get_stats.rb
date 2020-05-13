@@ -1,6 +1,6 @@
 class GetStats
   def call(team_params)
-    team = PrepareTeam.new.call(team_params)
+    team = PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
     data = fetch_data(team)
     format(data)
   end

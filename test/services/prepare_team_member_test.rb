@@ -3,7 +3,7 @@ require 'test_helper'
 class PrepareTeamMemberTest < ActiveSupport::TestCase
 
   test "creates team_member if doesnt exist" do
-    team = PrepareTeam.new.call(team_params)
+    team = PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
     user_name = "user_name"
     user_id = "user_id"
 

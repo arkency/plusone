@@ -31,7 +31,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
   end
 
   def team
-    @team ||= PrepareTeam.new.call(team_params)
+    @team ||= PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
   end
 
   def service_params

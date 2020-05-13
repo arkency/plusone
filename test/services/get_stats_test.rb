@@ -3,7 +3,7 @@ require 'test_helper'
 class GetStatsTest < ActiveSupport::TestCase
 
   test "returns statistics" do
-    team = PrepareTeam.new.call(team_params)
+    team = PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
     team.team_members.create!(slack_user_id: "user_id",
                               slack_user_name: "user_name",
                               points: 666
