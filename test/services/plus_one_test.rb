@@ -3,8 +3,7 @@ require 'test_helper'
 class PlusOneTest < ActiveSupport::TestCase
 
   test "pluses someone with valid params" do
-    team = PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
-    PlusOne.new(team).call(plus_params)
+    PlusOne.new.call(plus_params, team_params)
 
     result = GetStats.new.call(team_params)
     expected_result = "1: user_name2\n0: user_name1"
@@ -12,9 +11,8 @@ class PlusOneTest < ActiveSupport::TestCase
   end
 
   test "raises exception when try to plus one yourself" do
-    team = PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
     assert_raises PlusOne::CannotPlusOneYourself do
-      PlusOne.new(team).call(invalid_plus_params)
+      PlusOne.new.call(invalid_plus_params, team_params)
     end
 
     result = GetStats.new.call(team_params)

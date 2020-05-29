@@ -2,8 +2,7 @@ class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def plus
-    team = PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
-    result = PlusOne.new(team).call(plus_params)
+    result = PlusOne.new.call(plus_params, team_params)
 
     render json: result
   rescue PlusOne::CannotPlusOneYourself
