@@ -1,4 +1,4 @@
-class CreatePluses < ActiveRecord::Migration
+class CreatePluses < ActiveRecord::Migration[4.2]
   def change
     create_table :pluses do |t|
       t.references :sender, index: true
