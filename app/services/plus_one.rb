@@ -19,8 +19,13 @@ class PlusOne
 
       team = Team.find_by(slack_team_id: team_params[:team_id])
       sender, recipient = prepare_transaction_actors(team).call(params)
-      raise InvalidSlackToken if recipient.slack_user_name == 'u'
+      recipient_name = MessageParser.new(params[:text], params[:trigger_word]).recipient_name
+      raise InvalidSlackToken if user_tag_which_is_not_an_alias?(recipient, recipient_name)
       raise CannotPlusOneYourself if sender == recipient
+
+      if Alias.exists?(user_alias: recipient_name)
+        recipient = team.team_members.find_by(slack_user_name: Alias.find_by(user_alias: recipient_name).username)
+      end
       recipient.increment!(:points)
       Upvote.create(recipient: recipient, sender: sender)
 
@@ -32,6 +37,10 @@ class PlusOne
   end
 
   private
+
+  def user_tag_which_is_not_an_alias?(recipient, recipient_name)
+    (recipient.slack_user_name == 'u') && ! Alias.exists?(user_alias: recipient_name)
+  end
 
   def slack_team(team_params)
     SlackTeam.new(team_params[:team_id], team_params[:team_domain])

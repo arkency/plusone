@@ -19,7 +19,6 @@ class AliasesTest < ActionDispatch::IntegrationTest
   end
 
   def test_stats_show_aliases_together
-    skip
     post "/slack/plus", params: {
       team_domain: "team1",
       trigger_word: "+1",
@@ -39,6 +38,10 @@ class AliasesTest < ActionDispatch::IntegrationTest
       user_id: "user_id1",
       format: :json
     }
+    response_text = JSON(response.body)["text"]
+    expected_response = "user_name1(0) gave +1 for user_name2(2)"
+    assert_equal(response_text, expected_response)
+    skip
     post "/slack/plus", params: {
       trigger_word: "+1",
       text: "+1 !stats",
@@ -60,6 +63,10 @@ class AliasesTest < ActionDispatch::IntegrationTest
   end
 
   def test_plusone_to_usertag_without_alias_returns_previous_message
+    skip
+  end
+
+  def test_cant_plusone_your_own_alias
     skip
   end
 end
