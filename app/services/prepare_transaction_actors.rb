@@ -7,13 +7,13 @@ class PrepareTransactionActors
   end
 
   def call(params)
-    sender_username    = fetch_name(params[:user_name])
+    sender_username    = params[:user_name]
     recipient_username = fetch_name(recipient_name(params.slice(:text, :trigger_word)))
 
     raise MissingRecipient unless recipient_username.present?
 
-    sender    = prepare_team_member.call(@team, sender_username, params[:user_id])
-    recipient = prepare_team_member.call(@team, recipient_username)
+    sender    = prepare_sender(sender_username, params[:user_id])
+    recipient = prepare_recipient(recipient_username)
     [sender, recipient]
   end
 
@@ -31,7 +31,16 @@ class PrepareTransactionActors
     MessageParser.new(text_params[:text], text_params[:trigger_word]).recipient_name
   end
 
-  def prepare_team_member
-    PrepareTeamMember.new
+  def prepare_sender(user_name, slack_id)
+    member = @team.team_members.find_or_initialize_by(slack_user_name: user_name)
+    member.slack_user_id = slack_id
+    member.save!
+    member
+  end
+
+  def prepare_recipient(user_name)
+    member = @team.team_members.find_or_initialize_by(slack_user_name: user_name)
+    member.save!
+    member
   end
 end

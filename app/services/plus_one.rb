@@ -18,7 +18,7 @@ class PlusOne
       register_team(slack_team) unless team_exists?(slack_team)
 
       team = Team.find_by(slack_team_id: team_params[:team_id])
-      sender, recipient = prepare_transaction_actors(team).call(params)
+      sender, recipient = PrepareTransactionActors.new(team, SlackAdapter.new(team.slack_token)).call(params)
       recipient_name = MessageParser.new(params[:text], params[:trigger_word]).recipient_name
       raise InvalidSlackToken if user_tag_which_is_not_an_alias?(recipient, recipient_name)
       raise CannotPlusOneYourself if sender == recipient
@@ -52,9 +52,5 @@ class PlusOne
 
   def register_team(slack_team)
     Team.create!(slack_team_id: slack_team.id, slack_team_domain: slack_team.domain)
-  end
-
-  def prepare_transaction_actors(team)
-    PrepareTransactionActors.new(team, SlackAdapter.new(team.slack_token))
   end
 end
