@@ -58,6 +58,10 @@ class AliasesTest < ActionDispatch::IntegrationTest
     skip
   end
 
+  def test_cant_alias_to_existing_user
+    skip
+  end
+
   def test_plus_one_returns_info_with_merged_aliases
     skip
   end
