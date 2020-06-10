@@ -28,7 +28,19 @@ class AliasesTest < ActionDispatch::IntegrationTest
       user_id: "user_id1",
       format: :json
     }
-    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
+    #AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
+    post "/slack/plus", params: {
+      team_domain: "team1",
+      trigger_word: "+1",
+      text: "+1 !alias user_name2 <@U026BA51D>",
+      team_id: "team_id1",
+      user_name: "user_name1",
+      user_id: "user_id1",
+      format: :json
+    }
+    response_text = JSON(response.body)["text"]
+    expected_response = "<@U026BA51D> is now an alias to user_name2"
+    assert_equal(response_text, expected_response)
     post "/slack/plus", params: {
       team_domain: "team1",
       trigger_word: "+1",

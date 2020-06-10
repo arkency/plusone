@@ -11,6 +11,12 @@ class SlackController < ApplicationController
     invalid_slack_token
   end
 
+  def alias
+    result = AliasMessageParser.new(params[:text], params[:trigger_word])
+    AliasToUserTag.new.call(result.user_name, result.aliass)
+    render json: {text: "#{result.aliass} is now an alias to #{result.user_name}"}
+  end
+
   def empty
     render json: {text: bot_instruction }
   end
