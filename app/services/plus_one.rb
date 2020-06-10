@@ -21,12 +21,8 @@ class PlusOne
       recipient = PrepareRecipient.new(team, SlackAdapter.new(team.slack_token)).call(params)
 
       recipient_name = MessageParser.new(params[:text], params[:trigger_word]).recipient_name
-      if Alias.exists?(user_alias: recipient_name)
-        recipient = team.team_members.find_by(slack_user_name: Alias.find_by(user_alias: recipient_name).username)
-      end
       raise InvalidSlackToken if user_tag_which_is_not_an_alias?(recipient, recipient_name)
       raise CannotPlusOneYourself if sender == recipient
-
 
       recipient.increment!(:points)
       Upvote.create(recipient: recipient, sender: sender)
