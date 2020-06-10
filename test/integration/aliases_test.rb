@@ -55,6 +55,22 @@ class AliasesTest < ActionDispatch::IntegrationTest
   end
 
   def test_cant_alias_existing_alias
+    post "/slack/plus", params: {
+      team_domain: "team1",
+      trigger_word: "+1",
+      text: "+1 user_name2",
+      team_id: "team_id1",
+      user_name: "user_name1",
+      user_id: "user_id1",
+      format: :json
+    }
+    AliasUser.new.call("user_name2", "<@U026BA51D>")
+    assert_raises AliasAlreadyExists do
+      AliasUser.new.call("user_name1", "<@U026BA51D>")
+    end
+  end
+
+  def test_allow_existing_alias_if_used_in_another_team
     skip
   end
 
