@@ -41,7 +41,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
     response_text = JSON(response.body)["text"]
     expected_response = "user_name1(0) gave +1 for user_name2(2)"
     assert_equal(response_text, expected_response)
-    skip
+
     post "/slack/plus", params: {
       trigger_word: "+1",
       text: "+1 !stats",
