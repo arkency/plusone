@@ -82,10 +82,6 @@ class AliasesTest < ActionDispatch::IntegrationTest
     skip
   end
 
-  def test_plusone_to_usertag_without_alias_returns_previous_message
-    skip
-  end
-
   def test_cant_plusone_your_own_alias
     post "/slack/plus", params: {
       team_domain: "team1",
