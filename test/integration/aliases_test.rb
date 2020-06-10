@@ -87,7 +87,28 @@ class AliasesTest < ActionDispatch::IntegrationTest
   end
 
   def test_cant_plusone_your_own_alias
-    skip
+    post "/slack/plus", params: {
+      team_domain: "team1",
+      trigger_word: "+1",
+      text: "+1 user_name2",
+      team_id: "team_id1",
+      user_name: "user_name1",
+      user_id: "user_id1",
+      format: :json
+    }
+    AliasUser.new.call("user_name2", "<@U026BA51D>")
+    post "/slack/plus", params: {
+      team_domain: "team1",
+      trigger_word: "+1",
+      text: "+1 <@U026BA51D>",
+      team_id: "team_id1",
+      user_name: "user_name2",
+      user_id: "user_id2",
+      format: :json
+    }
+    response_text = JSON(response.body)["text"]
+    expected_plus_response = "Nope... not gonna happen."
+    assert_equal(response_text, expected_plus_response)
   end
 end
 
