@@ -7,7 +7,7 @@ class SlackController < ApplicationController
     render json: result
   rescue PlusOne::CannotPlusOneYourself
     cant_plus_one_yourself
-  rescue PlusOne::InvalidSlackToken
+  rescue PrepareRecipient::InvalidSlackToken
     invalid_slack_token
   end
 

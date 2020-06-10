@@ -1,6 +1,5 @@
 class PlusOne
   class CannotPlusOneYourself < StandardError; end
-  class InvalidSlackToken < StandardError; end
 
   class SlackTeam
     attr_reader :id, :domain
@@ -16,12 +15,9 @@ class PlusOne
       register_team_if_needed(team_params)
 
       team = Team.find_by(slack_team_id: team_params[:team_id])
-
-      sender = PrepareSender.new(team).call(params)
+      sender = PrepareSender.new(team).call(params[:user_name], params[:user_id])
       recipient = PrepareRecipient.new(team, SlackAdapter.new(team.slack_token)).call(params)
 
-      recipient_name = MessageParser.new(params[:text], params[:trigger_word]).recipient_name
-      raise InvalidSlackToken if user_tag_which_is_not_an_alias?(recipient, recipient_name)
       raise CannotPlusOneYourself if sender == recipient
 
       recipient.increment!(:points)
@@ -43,10 +39,6 @@ class PlusOne
   def register_team_if_needed(team_params)
     slack_team = slack_team(team_params)
     register_team(slack_team) unless team_exists?(slack_team)
-  end
-
-  def user_tag_which_is_not_an_alias?(recipient, recipient_name)
-    (recipient.slack_user_name == 'u') && ! Alias.exists?(user_alias: recipient_name)
   end
 
   def slack_team(team_params)

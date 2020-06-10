@@ -1,5 +1,6 @@
 class PrepareRecipient
   class MissingRecipient < StandardError ; end
+  class InvalidSlackToken < StandardError; end
 
   def initialize(team, slack_adapter)
     @team = team
@@ -14,10 +15,15 @@ class PrepareRecipient
     if Alias.exists?(user_alias: recipient_name)
       recipient = @team.team_members.find_by(slack_user_name: Alias.find_by(user_alias: recipient_name).username)
     end
+    raise InvalidSlackToken if user_tag_which_is_not_an_alias?(recipient, recipient_name)
     recipient
   end
 
   private
+
+  def user_tag_which_is_not_an_alias?(recipient, recipient_name)
+    (recipient.slack_user_name == 'u') && ! Alias.exists?(user_alias: recipient_name)
+  end
 
   def fetch_name(name)
     clean_name(@slack_adapter.get_real_user_name(name))
