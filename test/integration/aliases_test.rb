@@ -12,9 +12,9 @@ class AliasesTest < ActionDispatch::IntegrationTest
       user_id: "user_id1",
       format: :json
     }
-    AliasUser.new.call("user_name2", "<@U026BA51D>")
+    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
     assert_raises AliasNotAUserTag do
-      AliasUser.new.call("user_name2", "new_alias")
+      AliasToUserTag.new.call("user_name2", "new_alias")
     end
   end
 
@@ -28,7 +28,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
       user_id: "user_id1",
       format: :json
     }
-    AliasUser.new.call("user_name2", "<@U026BA51D>")
+    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
     post "/slack/plus", params: {
       team_domain: "team1",
       trigger_word: "+1",
@@ -64,22 +64,10 @@ class AliasesTest < ActionDispatch::IntegrationTest
       user_id: "user_id1",
       format: :json
     }
-    AliasUser.new.call("user_name2", "<@U026BA51D>")
+    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
     assert_raises AliasAlreadyExists do
-      AliasUser.new.call("user_name1", "<@U026BA51D>")
+      AliasToUserTag.new.call("user_name1", "<@U026BA51D>")
     end
-  end
-
-  def test_allow_existing_alias_if_used_in_another_team
-    skip
-  end
-
-  def test_cant_alias_to_existing_user
-    skip
-  end
-
-  def test_plus_one_returns_info_with_merged_aliases
-    skip
   end
 
   def test_cant_plusone_your_own_alias
@@ -92,7 +80,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
       user_id: "user_id1",
       format: :json
     }
-    AliasUser.new.call("user_name2", "<@U026BA51D>")
+    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
     post "/slack/plus", params: {
       team_domain: "team1",
       trigger_word: "+1",

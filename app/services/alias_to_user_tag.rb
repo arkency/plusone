@@ -1,7 +1,8 @@
-class AliasNotAUserTag   < StandardError; end
-class AliasAlreadyExists < StandardError; end
+class AliasNotAUserTag         < StandardError; end
+class AliasAlreadyExists       < StandardError; end
 
-class AliasUser
+
+class AliasToUserTag
 
   def call(username, aliass)
     raise AliasNotAUserTag if not_usertag?(aliass)
