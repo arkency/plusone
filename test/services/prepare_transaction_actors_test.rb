@@ -6,20 +6,20 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     slack_adapter = InMemorySlackAdapter.new('valid')
     RegisterTeamMember.new.call(team.slack_team_id, service_params[:user_name], service_params[:user_id])
     sender    = PrepareSender.new.call(team.slack_team_id, service_params[:user_name], service_params[:user_id])
-    recipient = PrepareRecipient.new(team, slack_adapter).call(service_params)
+    recipient = PrepareRecipient.new(slack_adapter).call(team.slack_team_id, service_params)
     assert_equal('username', sender.slack_user_name)
     assert_equal('username2', recipient.slack_user_name)
   end 
   
   test "returns recipient with sanitized name with dots" do
     slack_adapter = SlackAdapter.new('valid')
-    recipient = PrepareRecipient.new(team, slack_adapter).call(service_params.merge({text: '+1 name.with.dots..'}))
+    recipient = PrepareRecipient.new(slack_adapter).call(team.slack_team_id, service_params.merge({text: '+1 name.with.dots..'}))
     assert_equal('name.with.dots', recipient.slack_user_name)
   end
 
   test "returns recipient with sanitized name with url format" do
     slack_adapter = SlackAdapter.new('valid')
-    recipient = PrepareRecipient.new(team, slack_adapter).call(service_params.merge({text: '+1 <http://asd.com|asd.com>'}))
+    recipient = PrepareRecipient.new(slack_adapter).call(team.slack_team_id, service_params.merge({text: '+1 <http://asd.com|asd.com>'}))
     assert_equal('asd.com', recipient.slack_user_name)
   end
  
