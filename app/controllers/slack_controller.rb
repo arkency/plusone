@@ -6,19 +6,19 @@ class SlackController < ApplicationController
 
     render json: result
   rescue PlusOne::CannotPlusOneYourself
-    cant_plus_one_yourself
+    render json: SlackMessages.cant_plus_one_yourself
   rescue PrepareRecipient::InvalidSlackToken
-    invalid_slack_token
+    render json: SlackMessages.invalid_slack_token
   end
 
   def alias
     result = AliasMessageParser.new(params[:text], params[:trigger_word])
     AliasToUserTag.new.call(result.user_name, result.aliass)
-    render json: {text: "#{result.aliass} is now an alias to #{result.user_name}"}
+    render json: SlackMessages.alias_success(result.aliass, result.user_name)
   end
 
   def empty
-    render json: {text: bot_instruction }
+    render json: SlackMessages.bot_instruction
   end
 
   def stats
@@ -41,19 +41,4 @@ class SlackController < ApplicationController
     params.permit(:text, :trigger_word, :user_id, :user_name)
   end
 
-  def bot_instruction
-    "PlusOne bot instruction:\n" +
-    "-Use '+1 @name' if you want to appreciate someone\n" +
-    "-Use '+1 !stats' to get statistics\n" +
-    "-Use '+1 !givers' to get givers statistics\n" +
-    "Want to help with PlusOne development? Feel welcome: https://github.com/arkency/plusone"
-  end
-
-  def cant_plus_one_yourself
-    render json: {text: "Nope... not gonna happen."}
-  end
-
-  def invalid_slack_token
-    render json: {text: "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"}
-  end
 end
