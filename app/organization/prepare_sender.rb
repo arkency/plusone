@@ -1,6 +1,4 @@
 class PrepareSender
-  class MissingRecipient < StandardError ; end
-
   def initialize(team)
     @team = team
   end
