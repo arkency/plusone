@@ -6,9 +6,9 @@ class PrepareRecipient
     @slack_adapter = slack_adapter
   end
 
-  def call(team_id, params)
+  def call(team_id, params, team_slack_token)
     team = Team.find_by(slack_team_id: team_id)
-    recipient_username = fetch_name(recipient_name(params.slice(:text, :trigger_word)))
+    recipient_username = fetch_name(team_slack_token, recipient_name(params.slice(:text, :trigger_word)))
     raise MissingRecipient unless recipient_username.present?
     recipient_name = MessageParser.new(params[:text], params[:trigger_word]).recipient_name
     if Alias.exists?(user_alias: recipient_name)
@@ -26,8 +26,8 @@ class PrepareRecipient
     (recipient.slack_user_name == 'u') && ! Alias.exists?(user_alias: recipient_name)
   end
 
-  def fetch_name(name)
-    clean_name(@slack_adapter.get_real_user_name(name))
+  def fetch_name(team_slack_token, name)
+    clean_name(@slack_adapter.get_real_user_name(team_slack_token, name))
   end
 
   def clean_name(name)

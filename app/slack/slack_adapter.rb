@@ -3,13 +3,9 @@ require 'net/http'
 class SlackAdapter
   NoUserInSlack = Class.new(StandardError)
 
-  def initialize(team_slack_token)
-    @team_slack_token = team_slack_token
-  end
-
-  def get_real_user_name(user_tag)
+  def get_real_user_name(team_slack_token, user_tag)
     if slack_username?(user_tag)
-      fetch_slack_username(user_tag)
+      fetch_slack_username(team_slack_token, user_tag)
     else
       sanitize_username(user_tag)
     end
@@ -22,23 +18,23 @@ class SlackAdapter
     user_tag.start_with?("<@")
   end
 
-  def fetch_slack_username(user_tag)
+  def fetch_slack_username(team_slack_token, user_tag)
     user_tag = strip_slack_user_tag(user_tag)
-    json = call_slack(user_tag)
+    json = call_slack(team_slack_token, user_tag)
     raise NoUserInSlack unless json["ok"]
     json["user"]["name"]
   end
 
-  def call_slack(user_tag)
-    uri = build_uri(user_tag)
+  def call_slack(team_slack_token, user_tag)
+    uri = build_uri(team_slack_token, user_tag)
     response = Net::HTTP.get(uri)
     JSON.parse(response)
   end
 
-  def build_uri(user_tag)
+  def build_uri(team_slack_token, user_tag)
     uri = URI('https://slack.com/api/users.info')
     params = {
-        token: @team_slack_token,
+        token: team_slack_token,
         user: user_tag
     }
     uri.query = URI.encode_www_form(params)
