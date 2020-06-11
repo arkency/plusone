@@ -16,7 +16,7 @@ class PlusOne
       register_sender_if_needed(team_params[:team_id], params[:user_name], params[:user_id])
 
       team = Team.find_by(slack_team_id: team_params[:team_id])
-      sender = PrepareSender.new(team).call(params[:user_name], params[:user_id])
+      sender = PrepareSender.new.call(team_params[:team_id], params[:user_name], params[:user_id])
       recipient = PrepareRecipient.new(team, SlackAdapter.new(team.slack_token)).call(params)
 
       raise CannotPlusOneYourself if sender == recipient
