@@ -13,6 +13,7 @@ class PlusOne
   def call(params, team_params)
     ActiveRecord::Base.transaction do
       register_team_if_needed(team_params)
+      register_sender_if_needed(team_params[:team_id], params[:user_name], params[:user_id])
 
       team = Team.find_by(slack_team_id: team_params[:team_id])
       sender = PrepareSender.new(team).call(params[:user_name], params[:user_id])
@@ -39,6 +40,14 @@ class PlusOne
   def register_team_if_needed(team_params)
     slack_team = slack_team(team_params)
     register_team(slack_team) unless team_exists?(slack_team)
+  end
+
+  def register_sender_if_needed(team_id, user_name, slack_user_id)
+    register_team_member(user_name, slack_user_id, team_id) unless Team.find_by(slack_team_id: team_id).team_members.exists?(slack_user_name: user_name)
+  end
+
+  def register_team_member(user_name, slack_user_id, team_id)
+    RegisterTeamMember.new.call(team_id, user_name, slack_user_id)
   end
 
   def slack_team(team_params)

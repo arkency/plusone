@@ -4,6 +4,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
 
   test "returns sender and recipient with name from slack in array" do
     slack_adapter = InMemorySlackAdapter.new('valid')
+    RegisterTeamMember.new.call(team.slack_team_id, service_params[:user_name], service_params[:user_id])
     sender    = PrepareSender.new(team).call(service_params[:user_name], service_params[:user_id])
     recipient = PrepareRecipient.new(team, slack_adapter).call(service_params)
     assert_equal('username', sender.slack_user_name)
