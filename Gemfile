@@ -18,5 +18,5 @@ group :development, :test do
 end
 
 group :test do
-  gem 'mutant-minitest'
+  gem 'mutant-minitest', '0.8.24'
 end

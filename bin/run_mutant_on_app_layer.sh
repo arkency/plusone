@@ -1,0 +1,1 @@
+RAILS_ENV=test bundle exec mutant -r ./config/environment -I test --use minitest PlusOne

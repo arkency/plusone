@@ -2,6 +2,8 @@ require 'test_helper'
 
 class AliasesTest < ActionDispatch::IntegrationTest
 
+  cover "PlusOne"
+
   def test_only_allow_user_tags_as_aliases
     post "/slack/plus", params: {
       team_domain: "team1",
