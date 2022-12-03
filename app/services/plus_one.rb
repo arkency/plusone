@@ -37,7 +37,7 @@ class PlusOne
       recipient.increment!(:points)
       Upvote.create(recipient: recipient, sender: sender)
 
-      return slack_output_message(recipient, sender)
+      slack_output_message(recipient, sender)
     end
   end
 
