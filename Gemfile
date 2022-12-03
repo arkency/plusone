@@ -5,6 +5,7 @@ ruby '3.1.2'
 gem 'rails', '~> 6.0.3'
 gem 'pg'
 gem 'uglifier'
+gem 'puma'
 
 group :development do
   gem 'dotenv-rails'
