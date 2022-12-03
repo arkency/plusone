@@ -10,10 +10,6 @@ group :development do
   gem "dotenv-rails"
 end
 
-group :development, :test do
-  gem "sqlite3", "~> 1.4"
-end
-
 group :test do
   gem "mutant-minitest", require: false
   gem "mutant", require: false

@@ -1,14 +1,21 @@
 development:
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
   pool: 5
-  timeout: 5000
-  database: db/development.sqlite3
+  connect_timeout: 5
+  database: plusone_development
 
 test:
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
   pool: 5
-  timeout: 5000
-  database: db/test.sqlite3
+  connect_timeout: 5
+  database: plusone_test
+  min_messages: warning
 
 production:
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  connect_timeout: 5
   url: <%= ENV["DATABASE_URL"] %>

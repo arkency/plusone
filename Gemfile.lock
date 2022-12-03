@@ -157,8 +157,6 @@ GEM
     rake (13.0.6)
     regexp_parser (2.6.1)
     sorbet-runtime (0.5.10572)
-    sqlite3 (1.5.4)
-      mini_portile2 (~> 2.8.0)
     thor (1.2.1)
     timeout (0.3.0)
     tzinfo (2.0.5)
@@ -182,7 +180,6 @@ DEPENDENCIES
   pg
   puma
   rails (~> 7.0.4)
-  sqlite3 (~> 1.4)
 
 BUNDLED WITH
    2.3.26
