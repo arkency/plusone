@@ -134,7 +134,7 @@ GEM
     pg (1.4.5)
     procto (0.0.3)
     racc (1.6.0)
-    rack (2.2.2)
+    rack (2.2.4)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.3)
