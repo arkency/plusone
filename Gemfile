@@ -8,7 +8,6 @@ gem 'rails_12factor', group: :production
 gem 'uglifier'
 
 group :development do
-  gem 'spring'
   gem 'dotenv-rails'
 end
 
