@@ -19,4 +19,5 @@ end
 group :test do
   gem "mutant-minitest", require: false
   gem "mutant", require: false
+  gem "mutant-license", require: false, source: "https://oss:7AXfeZdAfCqL1PvHm2nvDJO6Zd9UW8IK@gem.mutant.dev"
 end
