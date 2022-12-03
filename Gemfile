@@ -1,22 +1,22 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 ruby ENV["HEROKU_RUBY_VERSION"] if ENV["HEROKU_RUBY_VERSION"]
 
-gem 'rails', '~> 6.0.3'
-gem 'pg'
-gem 'uglifier'
-gem 'puma'
+gem "rails", "~> 6.0.3"
+gem "pg"
+gem "uglifier"
+gem "puma"
 
 group :development do
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 end
 
 group :development, :test do
-  gem 'sqlite3', '~> 1.4'
-  gem 'listen'
+  gem "sqlite3", "~> 1.4"
+  gem "listen"
 end
 
 group :test do
-  gem 'mutant-minitest'
-  gem 'mutant'
+  gem "mutant-minitest"
+  gem "mutant"
 end
