@@ -10,3 +10,4 @@ jobs:
           ruby-version: 3.1
           bundler-cache: true
       - run: bundle exec rake
+      - run: bundle exec mutant run

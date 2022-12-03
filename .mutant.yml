@@ -1,0 +1,11 @@
+---
+integration: minitest
+environment_variables:
+  RAILS_ENV: test
+includes:
+  - test
+requires:
+  - ./config/environment
+matcher:
+  subjects:
+    - PlusOne
