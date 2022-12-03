@@ -1,11 +1,12 @@
 class PlusOne
-  class CannotPlusOneYourself < StandardError; end
+  class CannotPlusOneYourself < StandardError
+  end
 
   class SlackTeam
     attr_reader :id, :domain
 
     def initialize(id, domain)
-      @id     = id
+      @id = id
       @domain = domain
     end
   end
@@ -13,10 +14,23 @@ class PlusOne
   def call(params, team_params)
     ActiveRecord::Base.transaction do
       register_team_if_needed(team_params)
-      register_sender_if_needed(team_params[:team_id], params[:user_name], params[:user_id])
+      register_sender_if_needed(
+        team_params[:team_id],
+        params[:user_name],
+        params[:user_id]
+      )
 
-      sender = PrepareSender.new.call(team_params[:team_id], params[:user_name], params[:user_id])
-      recipient = PrepareRecipient.new(SlackAdapter.new).call(team_params[:team_id], params)
+      sender =
+        PrepareSender.new.call(
+          team_params[:team_id],
+          params[:user_name],
+          params[:user_id]
+        )
+      recipient =
+        PrepareRecipient.new(SlackAdapter.new).call(
+          team_params[:team_id],
+          params
+        )
 
       raise CannotPlusOneYourself if sender == recipient
 
@@ -31,7 +45,8 @@ class PlusOne
 
   def slack_output_message(recipient, sender)
     {
-      text: "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
+      text:
+        "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
       parse: "none"
     }
   end
@@ -42,7 +57,12 @@ class PlusOne
   end
 
   def register_sender_if_needed(team_id, user_name, slack_user_id)
-    register_team_member(user_name, slack_user_id, team_id) unless Team.find_by(slack_team_id: team_id).team_members.exists?(slack_user_name: user_name)
+    unless Team
+             .find_by(slack_team_id: team_id)
+             .team_members
+             .exists?(slack_user_name: user_name)
+      register_team_member(user_name, slack_user_id, team_id)
+    end
   end
 
   def register_team_member(user_name, slack_user_id, team_id)
@@ -58,6 +78,9 @@ class PlusOne
   end
 
   def register_team(slack_team)
-    Team.create!(slack_team_id: slack_team.id, slack_team_domain: slack_team.domain)
+    Team.create!(
+      slack_team_id: slack_team.id,
+      slack_team_domain: slack_team.domain
+    )
   end
 end

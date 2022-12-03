@@ -1,7 +1,6 @@
-require 'test_helper'
+require "test_helper"
 
 class PlusOneTest < ActiveSupport::TestCase
-
   test "pluses someone with valid params" do
     PlusOne.new.call(plus_params, team_params)
 
@@ -39,5 +38,4 @@ class PlusOneTest < ActiveSupport::TestCase
   def invalid_plus_params
     plus_params.merge(user_name: "user_name2")
   end
-
 end

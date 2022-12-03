@@ -1,4 +1,4 @@
-require 'net/http'
+require "net/http"
 
 class SlackAdapter
   NoUserInSlack = Class.new(StandardError)
@@ -14,6 +14,7 @@ class SlackAdapter
   end
 
   private
+
   def slack_username?(user_tag)
     user_tag.start_with?("<@")
   end
@@ -32,11 +33,8 @@ class SlackAdapter
   end
 
   def build_uri(team_slack_token, user_tag)
-    uri = URI('https://slack.com/api/users.info')
-    params = {
-        token: team_slack_token,
-        user: user_tag
-    }
+    uri = URI("https://slack.com/api/users.info")
+    params = { token: team_slack_token, user: user_tag }
     uri.query = URI.encode_www_form(params)
     uri
   end
@@ -49,9 +47,8 @@ class SlackAdapter
     strip_slack_user_tag(user_tag).slice(0).downcase
   end
 
-  def sanitize_username name
-    name = name.split('|').last if name.start_with?('<http') 
+  def sanitize_username(name)
+    name = name.split("|").last if name.start_with?("<http")
     name.match(/[\w\-\.]*\w+/).to_s
   end
-
 end
