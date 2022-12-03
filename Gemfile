@@ -4,7 +4,6 @@ ruby '2.7.7'
 
 gem 'rails', '~> 6.0.3'
 gem 'pg'
-gem 'rails_12factor', group: :production
 gem 'uglifier'
 
 group :development do
