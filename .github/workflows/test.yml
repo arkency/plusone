@@ -1,5 +1,15 @@
 name: test
 on: [push, pull_request]
+services:
+  postgres:
+    image: postgres:12
+    ports: ["5432:5432"]
+    options: >-
+      --mount type=tmpfs,destination=/var/lib/postgresql/data
+      --health-cmd pg_isready
+      --health-interval 10s
+      --health-timeout 5s
+      --health-retries 5
 jobs:
   test:
     runs-on: ubuntu-latest
