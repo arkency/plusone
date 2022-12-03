@@ -12,7 +12,6 @@ end
 
 group :development, :test do
   gem "sqlite3", "~> 1.4"
-  gem "listen"
 end
 
 group :test do
