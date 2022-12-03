@@ -17,6 +17,6 @@ group :development, :test do
 end
 
 group :test do
-  gem "mutant-minitest"
-  gem "mutant"
+  gem "mutant-minitest", require: false
+  gem "mutant", require: false
 end
