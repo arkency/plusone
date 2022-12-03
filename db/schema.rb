@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_31_151534) do
+ActiveRecord::Schema.define(version: 2022_12_03_213447) do
 
   create_table "aliases", force: :cascade do |t|
     t.string "username"
