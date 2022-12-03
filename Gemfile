@@ -4,7 +4,6 @@ ruby ENV["HEROKU_RUBY_VERSION"] if ENV["HEROKU_RUBY_VERSION"]
 
 gem "rails", "~> 6.0.3"
 gem "pg"
-gem "uglifier"
 gem "puma"
 
 group :development do
