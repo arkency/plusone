@@ -4,7 +4,6 @@ class SlackController < ApplicationController
   def plus
     result =
       PlusOne.new.call(user_name, message, trigger_word, slack_team_id, slack_team_domain)
-
     render json: result
   rescue PlusOne::CannotPlusOneYourself
     render json: SlackMessages.cant_plus_one_yourself
@@ -15,6 +14,7 @@ class SlackController < ApplicationController
   def alias
     result = AliasMessageParser.new(message, trigger_word)
     AliasToUserTag.new.call(result.user_name, result.aliass)
+
     render json: SlackMessages.alias_success(result.aliass, result.user_name)
   end
 
@@ -23,13 +23,11 @@ class SlackController < ApplicationController
   end
 
   def stats
-    msg = stats_query.received_upvotes
-    render json: { text: msg }
+    render json: SlackMessages.raw(stats_query.received_upvotes)
   end
 
   def givers
-    msg = stats_query.given_upvotes
-    render json: { text: msg }
+    render json: SlackMessages.raw(stats_query.given_upvotes)
   end
 
   private
