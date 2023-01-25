@@ -11,6 +11,7 @@ class GiveUpvoteTest < ActiveSupport::TestCase
       team
     )
 
+    assert_equal [receiver, sender], result
     assert_equal <<~RESULT.strip, stats.received_upvotes
       1: #{receiver_user_name}
       0: #{sender_user_name}
@@ -38,6 +39,14 @@ class GiveUpvoteTest < ActiveSupport::TestCase
 
   def team
     Team.register("external_id", "kakadudu")
+  end
+
+  def sender
+    team.register_member(sender_user_name)
+  end
+
+  def receiver
+    team.register_member(receiver_user_name)
   end
 
   def text_message

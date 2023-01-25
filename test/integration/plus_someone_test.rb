@@ -1,7 +1,6 @@
 require "test_helper"
 
 class PlusSomeoneTest < ActionDispatch::IntegrationTest
-  cover GiveUpvote
   cover SlackController
 
   def test_add_points_for_nonexisting_team_see_stats

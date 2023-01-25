@@ -1,7 +1,6 @@
 require "test_helper"
 
 class AliasesTest < ActionDispatch::IntegrationTest
-  cover GiveUpvote
   cover SlackController
 
   def test_only_allow_user_tags_as_aliases
