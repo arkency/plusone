@@ -4,10 +4,7 @@ class PlusOne
 
   def call(user_name, text, trigger_word, team_id, team_domain)
     ActiveRecord::Base.transaction do
-      Team.find_or_create_by(
-        slack_team_id: team_id,
-        slack_team_domain: team_domain
-      )
+      Team.register(team_id, team_domain)
       RegisterTeamMember.new.call(team_id, user_name)
 
       sender = PrepareSender.new.call(team_id, user_name)
