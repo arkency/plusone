@@ -15,20 +15,20 @@ class PlusOne
     ActiveRecord::Base.transaction do
       register_team_if_needed(team_params)
       register_sender_if_needed(
-        team_params[:team_id],
-        params[:user_name],
-        params[:user_id]
+        team_params.fetch(:team_id),
+        params.fetch(:user_name),
+        params.fetch(:user_id)
       )
 
       sender =
         PrepareSender.new.call(
-          team_params[:team_id],
-          params[:user_name],
-          params[:user_id]
+          team_params.fetch(:team_id),
+          params.fetch(:user_name),
+          params.fetch(:user_id)
         )
       recipient =
         PrepareRecipient.new(SlackAdapter.new).call(
-          team_params[:team_id],
+          team_params.fetch(:team_id),
           params
         )
 
