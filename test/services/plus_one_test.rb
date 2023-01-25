@@ -12,9 +12,10 @@ class PlusOneTest < ActiveSupport::TestCase
       team_domain
     )
 
-    result = Stats.new.received(team_id, team_domain)
-    expected_result = "1: user_name2\n0: user_name1"
-    assert_equal(result, expected_result)
+    assert_equal <<~RESULT.strip, stats.received(team_id, team_domain)
+      1: user_name2
+      0: user_name1
+    RESULT
   end
 
   test "raises exception when try to plus one yourself" do
@@ -28,9 +29,7 @@ class PlusOneTest < ActiveSupport::TestCase
       )
     end
 
-    result = Stats.new.received(team_id, team_domain)
-    expected_result = ""
-    assert_equal(result, expected_result)
+    assert_equal "", stats.received(team_id, team_domain)
   end
 
   def test_team_test
@@ -46,6 +45,10 @@ class PlusOneTest < ActiveSupport::TestCase
   end
 
   private
+
+  def stats
+    Stats.new
+  end
 
   def team_params
     { team_domain: team_domain, team_id: team_id }
