@@ -1,8 +1,8 @@
 class GiveUpvote
   CannotUpvoteYourself = Class.new(StandardError)
 
-  def initialize(slack_adapter = SlackAdapter.new)
-    @slack_adapter = slack_adapter
+  def initialize
+    @slack_adapter = SlackAdapter.new
   end
 
   def call(user_name, text, trigger_word, team)
