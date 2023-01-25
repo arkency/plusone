@@ -15,8 +15,7 @@ class PlusOne
         PrepareRecipient.new(@slack_adapter).call(team_id, text, trigger_word)
 
       recipient.receive_upvote(sender)
-
-      SlackMessages.slack_output_message(recipient, sender)
+      [recipient, sender]
     end
   end
 end

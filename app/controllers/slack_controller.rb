@@ -2,9 +2,9 @@ class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def plus
-    result =
+    recipient, sender =
       PlusOne.new.call(user_name, message, trigger_word, slack_team_id, slack_team_domain)
-    render json: result
+    render json: SlackMessages.slack_output_message(recipient, sender)
   rescue PlusOne::CannotPlusOneYourself
     render json: SlackMessages.cant_plus_one_yourself
   rescue PrepareRecipient::InvalidSlackToken
