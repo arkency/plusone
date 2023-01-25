@@ -1,6 +1,8 @@
 require "test_helper"
 
 class PlusOneTest < ActiveSupport::TestCase
+  cover PlusOne
+
   test "pluses someone with valid params" do
     PlusOne.new.call(plus_params, team_params)
 
@@ -17,6 +19,12 @@ class PlusOneTest < ActiveSupport::TestCase
     result = GetStats.new.call(team_params)
     expected_result = ""
     assert_equal(result, expected_result)
+  end
+
+  def test_team_test
+    PlusOne.new.call(plus_params, team_params.merge(team_domain: "mmmpuu"))
+
+    assert Team.find_by(slack_team_domain: "mmmpuu")
   end
 
   def team_params

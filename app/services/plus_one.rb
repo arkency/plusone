@@ -2,15 +2,6 @@ class PlusOne
   class CannotPlusOneYourself < StandardError
   end
 
-  class SlackTeam
-    attr_reader :id, :domain
-
-    def initialize(id, domain)
-      @id = id
-      @domain = domain
-    end
-  end
-
   def call(params, team_params)
     ActiveRecord::Base.transaction do
       register_team_if_needed(team_params)
@@ -50,8 +41,7 @@ class PlusOne
   end
 
   def register_team_if_needed(team_params)
-    slack_team = slack_team(team_params)
-    register_team(slack_team) unless team_exists?(slack_team)
+    register_team(team_params)
   end
 
   def register_sender_if_needed(team_id, user_name)
@@ -62,18 +52,10 @@ class PlusOne
     RegisterTeamMember.new.call(team_id, user_name)
   end
 
-  def slack_team(team_params)
-    SlackTeam.new(team_params[:team_id], team_params[:team_domain])
-  end
-
-  def team_exists?(slack_team)
-    Team.exists?(slack_team_id: slack_team.id)
-  end
-
-  def register_team(slack_team)
-    Team.create!(
-      slack_team_id: slack_team.id,
-      slack_team_domain: slack_team.domain
+  def register_team(team_params)
+    Team.find_or_create_by(
+      slack_team_id: team_params.fetch(:team_id),
+      slack_team_domain: team_params.fetch(:team_domain)
     )
   end
 end
