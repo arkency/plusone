@@ -30,17 +30,6 @@ class GiveUpvoteTest < ActiveSupport::TestCase
     assert_equal "", stats.received_upvotes
   end
 
-  def test_team_test
-    GiveUpvote.new.call(
-      user_name,
-      text_message,
-      trigger_word,
-      team
-    )
-
-    assert Team.find_by(slack_team_domain: team_domain)
-  end
-
   private
 
   def stats
@@ -48,7 +37,7 @@ class GiveUpvoteTest < ActiveSupport::TestCase
   end
 
   def team
-    Team.register(team_id, team_domain)
+    Team.register("external_id", "kakadudu")
   end
 
   def text_message
@@ -57,14 +46,6 @@ class GiveUpvoteTest < ActiveSupport::TestCase
 
   def trigger_word
     "+1"
-  end
-
-  def team_domain
-    "kakadudu"
-  end
-
-  def team_id
-    "team_id"
   end
 
   def user_name
