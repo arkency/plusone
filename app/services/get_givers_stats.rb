@@ -13,10 +13,10 @@ class GetGiversStats
       .map do |x|
         { name: x.slack_user_name, given_upvotes: x.given_upvotes.length }
       end
+      .group_by { |x| x[:given_upvotes] }
   end
 
-  def format(data)
-    grouped_data = data.group_by { |x| x[:given_upvotes] }
+  def format(grouped_data)
     grouped_data
       .keys
       .sort
