@@ -1,6 +1,6 @@
 class Stats
   def initialize(team_id)
-    @team_id = team_id
+    @team_id = Integer(team_id)
   end
 
   def received_upvotes
