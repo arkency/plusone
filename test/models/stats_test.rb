@@ -42,7 +42,7 @@ class StatsTest < ActiveSupport::TestCase
   end
 
   def stats
-    Stats.new(team)
+    Stats.new(team.id)
   end
 
   def team_domain

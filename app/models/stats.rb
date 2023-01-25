@@ -1,10 +1,10 @@
 class Stats
-  def initialize(team)
-    @team = team
+  def initialize(team_id)
+    @team_id = team_id
   end
 
   def received_upvotes
-    grouped_data = @team.team_members.group_by(&:points)
+    grouped_data = TeamMember.where(team_id: @team_id).group_by(&:points)
     grouped_data
       .keys
       .sort
@@ -18,8 +18,7 @@ class Stats
 
   def given_upvotes
     grouped_data =
-      @team
-        .team_members
+      TeamMember.where(team_id: @team_id)
         .includes(:given_upvotes)
         .map do |x|
           { name: x.slack_user_name, given_upvotes: x.given_upvotes.length }

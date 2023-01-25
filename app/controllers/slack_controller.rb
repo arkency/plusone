@@ -38,7 +38,7 @@ class SlackController < ApplicationController
   private
 
   def stats_query
-    Stats.new(team)
+    Stats.new(team.id)
   end
 
   def team

@@ -44,7 +44,7 @@ class PlusOneTest < ActiveSupport::TestCase
   private
 
   def stats
-    Stats.new(team)
+    Stats.new(team.id)
   end
 
   def team
