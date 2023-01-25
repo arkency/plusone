@@ -38,18 +38,10 @@ class StatsTest < ActiveSupport::TestCase
   private
 
   def team
-    Team.register(team_id, team_domain)
+    Team.register("team_id1", "kakadudu")
   end
 
   def stats
     Stats.new(team.id)
-  end
-
-  def team_domain
-    "team1"
-  end
-
-  def team_id
-    "team_id1"
   end
 end
