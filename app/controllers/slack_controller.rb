@@ -46,15 +46,15 @@ class SlackController < ApplicationController
   end
 
   def slack_team_domain
-    team_params.fetch(:team_domain)
+    params.fetch(:team_domain)
   end
 
   def slack_team_id
-    team_params.fetch(:team_id)
+    params.fetch(:team_id)
   end
 
   def user_name
-    plus_params.fetch(:user_name)
+    params.fetch(:user_name)
   end
 
   def trigger_word
@@ -63,13 +63,5 @@ class SlackController < ApplicationController
 
   def message
     params.fetch(:text)
-  end
-
-  def team_params
-    params.permit(:team_id, :team_domain)
-  end
-
-  def plus_params
-    params.permit(:text, :trigger_word, :user_id, :user_name)
   end
 end
