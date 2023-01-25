@@ -64,7 +64,7 @@ class PlusOne
   end
 
   def register_team_member(user_name, team_id)
-    RegisterTeamMember.new.call(team_id, user_name, nil)
+    RegisterTeamMember.new.call(team_id, user_name)
   end
 
   def slack_team(team_params)

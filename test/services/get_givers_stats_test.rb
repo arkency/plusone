@@ -6,14 +6,12 @@ class GetGiversStatsTest < ActiveSupport::TestCase
       PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
     member1 =
       team.team_members.create!(
-        slack_user_id: "user_id",
         slack_user_name: "user_name",
         points: 666
       )
 
     member2 =
       team.team_members.create!(
-        slack_user_id: "user_id2",
         slack_user_name: "user_name2",
         points: 2
       )

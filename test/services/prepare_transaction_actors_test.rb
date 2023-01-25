@@ -6,7 +6,6 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     RegisterTeamMember.new.call(
       team.slack_team_id,
       service_params[:user_name],
-      service_params[:user_id]
     )
     team.update(slack_token: "valid")
     sender =
