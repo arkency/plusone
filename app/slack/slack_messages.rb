@@ -24,4 +24,12 @@ class SlackMessages
   def self.alias_success(aliass, user_name)
     { text: "#{aliass} is now an alias to #{user_name}" }
   end
+
+  def self.slack_output_message(recipient, sender)
+    {
+      text:
+        "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
+      parse: "none"
+    }
+  end
 end

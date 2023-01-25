@@ -26,19 +26,11 @@ class PlusOne
       recipient.increment!(:points)
       Upvote.create(recipient: recipient, sender: sender)
 
-      slack_output_message(recipient, sender)
+      SlackMessages.slack_output_message(recipient, sender)
     end
   end
 
   private
-
-  def slack_output_message(recipient, sender)
-    {
-      text:
-        "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})",
-      parse: "none"
-    }
-  end
 
   def register_team_if_needed(team_params)
     register_team(team_params)
