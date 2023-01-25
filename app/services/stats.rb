@@ -1,6 +1,6 @@
 class Stats
-  def initialize(team_id, team_domain)
-    @team = PrepareTeam.new.call(team_id, team_domain)
+  def initialize(external_id, domain)
+    @team = Team.register(external_id, domain)
   end
 
   def received_upvotes

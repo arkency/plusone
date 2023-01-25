@@ -45,13 +45,8 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
 
   private
 
-  def team_params
-    { team_id: "team_id", team_domain: "kakadudu" }
-  end
-
   def team
-    @team ||=
-      PrepareTeam.new.call(team_params[:team_id], team_params[:team_domain])
+    Team.register("team_id", "kakadudu")
   end
 
   def service_params

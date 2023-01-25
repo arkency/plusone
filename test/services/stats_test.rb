@@ -2,7 +2,6 @@ require "test_helper"
 
 class StatsTest < ActiveSupport::TestCase
   test "given upvotes" do
-    team = PrepareTeam.new.call(team_id, team_domain)
     member1 =
       team.team_members.create!(slack_user_name: "user_name", points: 666)
     member2 =
@@ -22,7 +21,6 @@ class StatsTest < ActiveSupport::TestCase
   end
 
   test "received upvotes" do
-    team = PrepareTeam.new.call(team_id, team_domain)
     team.team_members.create!(slack_user_name: "user_name", points: 666)
     team.team_members.create!(slack_user_name: "user_name2", points: 666)
     team.team_members.create!(slack_user_name: "user_name3", points: 2)
@@ -38,6 +36,10 @@ class StatsTest < ActiveSupport::TestCase
   end
 
   private
+
+  def team
+    Team.register(team_id, team_domain)
+  end
 
   def stats
     Stats.new(team_id, team_domain)
