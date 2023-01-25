@@ -1,10 +1,8 @@
 require "test_helper"
 
-class PrepareTransactionActorsTest < ActiveSupport::TestCase
+class PrepareRecipientTest < ActiveSupport::TestCase
   test "returns sender and recipient with name from slack in array" do
-    team.register_member(user_name)
     team.update(slack_token: "valid")
-    sender = team.register_member(user_name)
     recipient =
       PrepareRecipient.new(InMemorySlackAdapter.new).call(
         team,
@@ -12,12 +10,10 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
         trigger_word
       )
 
-    assert_equal "username", sender.slack_user_name
     assert_equal "username2", recipient.slack_user_name
   end
 
   test "returns recipient with sanitized name with dots" do
-    team.update(slack_token: "valid")
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
         team,
@@ -29,7 +25,6 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
   end
 
   test "returns recipient with sanitized name with url format" do
-    team.update(slack_token: "valid")
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
         team,
@@ -44,10 +39,6 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
 
   def team
     Team.register("team_id", "kakadudu")
-  end
-
-  def user_name
-    "username"
   end
 
   def trigger_word
