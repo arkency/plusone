@@ -8,7 +8,7 @@ class InMemorySlackAdapter
   end
 
   def fetch_slack_username(team_slack_token, user_tag)
-    team_slack_token == "valid" ? user_tag[2..-2] : "u"
+    team_slack_token.eql?("valid") ? user_tag.at(2..-2) : "u"
   end
 
   def slack_username?(user_tag)

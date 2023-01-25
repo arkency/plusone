@@ -10,3 +10,4 @@ matcher:
   subjects:
     - GiveUpvote
     - SlackController
+    - InMemorySlackAdapter

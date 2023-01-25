@@ -1,6 +1,8 @@
 require "test_helper"
 
 class InMemorySlackAdapterTest < ActiveSupport::TestCase
+  cover InMemorySlackAdapter
+
   test "returns same username when it doesnt start with <@" do
     assert_equal "user_name", slack.get_real_user_name(token, "user_name")
   end
