@@ -8,8 +8,7 @@ class PlusOneTest < ActiveSupport::TestCase
       user_name,
       text_message,
       trigger_word,
-      team_id,
-      team_domain
+      team
     )
 
     assert_equal <<~RESULT.strip, stats.received_upvotes
@@ -24,8 +23,7 @@ class PlusOneTest < ActiveSupport::TestCase
         invalid_user_name,
         text_message,
         trigger_word,
-        team_id,
-        team_domain
+        team
       )
     end
 
@@ -37,8 +35,7 @@ class PlusOneTest < ActiveSupport::TestCase
       user_name,
       text_message,
       trigger_word,
-      team_id,
-      team_domain
+      team
     )
 
     assert Team.find_by(slack_team_domain: team_domain)
@@ -47,11 +44,11 @@ class PlusOneTest < ActiveSupport::TestCase
   private
 
   def stats
-    Stats.new(team_id, team_domain)
+    Stats.new(team)
   end
 
-  def team_params
-    { team_domain: team_domain, team_id: team_id }
+  def team
+    Team.register(team_id, team_domain)
   end
 
   def text_message

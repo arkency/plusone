@@ -7,8 +7,7 @@ class SlackController < ApplicationController
         user_name,
         message,
         trigger_word,
-        slack_team_id,
-        slack_team_domain
+        team
       )
     render json: SlackMessages.slack_output_message(recipient, sender)
   rescue PlusOne::CannotPlusOneYourself
@@ -39,7 +38,11 @@ class SlackController < ApplicationController
   private
 
   def stats_query
-    Stats.new(slack_team_id, slack_team_domain)
+    Stats.new(team)
+  end
+
+  def team
+    Team.register(slack_team_id, slack_team_domain)
   end
 
   def slack_team_domain
