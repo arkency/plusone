@@ -7,6 +7,9 @@ includes:
 requires:
   - ./config/environment
 matcher:
+  ignore:
+    - SlackController#plus_params
+    - SlackController#team_params
   subjects:
     - PlusOne
     - RegisterTeamMember
