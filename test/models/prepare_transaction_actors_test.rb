@@ -4,12 +4,11 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
   test "returns sender and recipient with name from slack in array" do
     team.register_member(user_name)
     team.update(slack_token: "valid")
-    sender =
-      PrepareSender.new.call(team.slack_team_id, user_name)
+    sender = PrepareSender.new.call(team.slack_team_id, user_name)
     recipient =
       PrepareRecipient.new(InMemorySlackAdapter.new).call(
         team.slack_team_id,
-        service_params.fetch(:text),
+        "+1 <@username2>",
         trigger_word
       )
 
@@ -22,7 +21,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
         team.slack_team_id,
-       "+1 name.with.dots..",
+        "+1 name.with.dots..",
         trigger_word
       )
 
@@ -53,14 +52,5 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
 
   def trigger_word
     "+1"
-  end
-
-  def service_params
-    {
-      user_name: "username",
-      user_id: "user_id",
-      trigger_word: "+1",
-      text: "+1 <@username2>"
-    }
   end
 end
