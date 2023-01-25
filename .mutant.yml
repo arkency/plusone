@@ -9,3 +9,4 @@ requires:
 matcher:
   subjects:
     - PlusOne
+    - RegisterTeamMember
