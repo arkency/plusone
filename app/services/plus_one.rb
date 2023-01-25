@@ -30,7 +30,7 @@ class PlusOne
           params
         )
 
-      raise CannotPlusOneYourself if sender == recipient
+      raise CannotPlusOneYourself if sender.eql?(recipient)
 
       recipient.increment!(:points)
       Upvote.create(recipient: recipient, sender: sender)
