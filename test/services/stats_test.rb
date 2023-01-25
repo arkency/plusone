@@ -1,7 +1,7 @@
 require "test_helper"
 
-class GetGiversStatsTest < ActiveSupport::TestCase
-  test "returns statistics" do
+class StatsTest < ActiveSupport::TestCase
+  test "given upvotes" do
     team = PrepareTeam.new.call(team_id, team_domain)
     member1 =
       team.team_members.create!(slack_user_name: "user_name", points: 666)
@@ -17,8 +17,24 @@ class GetGiversStatsTest < ActiveSupport::TestCase
     RESULT
   end
 
-  test "returns empty string when no team_members present" do
+  test "given upvotes when no team_members present" do
     assert_equal "", stats.given(team_id, team_domain)
+  end
+
+  test "received upvotes" do
+    team = PrepareTeam.new.call(team_id, team_domain)
+    team.team_members.create!(slack_user_name: "user_name", points: 666)
+    team.team_members.create!(slack_user_name: "user_name2", points: 666)
+    team.team_members.create!(slack_user_name: "user_name3", points: 2)
+
+    assert_equal <<~RESULT.strip,  stats.received(team_id, team_domain)
+      666: user_name, user_name2
+      2: user_name3
+    RESULT
+  end
+
+  test "received upvotes when no team_members present" do
+    assert_equal "", stats.received(team_id, team_domain)
   end
 
   private
