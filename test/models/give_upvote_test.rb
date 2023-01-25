@@ -1,6 +1,6 @@
 require "test_helper"
 
-class PlusOneTest < ActiveSupport::TestCase
+class GiveUpvoteTest < ActiveSupport::TestCase
   cover GiveUpvote
 
   test "pluses someone with valid params" do
