@@ -6,7 +6,7 @@ class PlusOneTest < ActiveSupport::TestCase
   test "pluses someone with valid params" do
     PlusOne.new.call(user_name, text_message, trigger_word, team_id, team_domain)
 
-    result = GetStats.new.call(team_params)
+    result = GetStats.new.call(team_id, team_domain)
     expected_result = "1: user_name2\n0: user_name1"
     assert_equal(result, expected_result)
   end
@@ -16,7 +16,7 @@ class PlusOneTest < ActiveSupport::TestCase
       PlusOne.new.call(invalid_user_name, text_message, trigger_word, team_id, team_domain)
     end
 
-    result = GetStats.new.call(team_params)
+    result = GetStats.new.call(team_id, team_domain)
     expected_result = ""
     assert_equal(result, expected_result)
   end

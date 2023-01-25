@@ -22,12 +22,12 @@ class SlackController < ApplicationController
   end
 
   def stats
-    msg = GetStats.new.call(team_params)
+    msg = GetStats.new.call(team_id, team_domain)
     render json: { text: msg }
   end
 
   def givers
-    msg = GetGiversStats.new.call(team_params)
+    msg = GetGiversStats.new.call(team_id, team_domain)
     render json: { text: msg }
   end
 
@@ -54,7 +54,7 @@ class SlackController < ApplicationController
   end
 
   def team_params
-    params.slice(:team_id, :team_domain)
+    params.permit(:team_id, :team_domain)
   end
 
   def plus_params
