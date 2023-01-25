@@ -4,7 +4,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
   test "returns sender and recipient with name from slack in array" do
     team.register_member(user_name)
     team.update(slack_token: "valid")
-    sender = PrepareSender.new.call(team.slack_team_id, user_name)
+    sender = team.register_member(user_name)
     recipient =
       PrepareRecipient.new(InMemorySlackAdapter.new).call(
         team.slack_team_id,
