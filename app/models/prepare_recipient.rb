@@ -7,7 +7,7 @@ class PrepareRecipient
   end
 
   def call(team, text, trigger_word)
-    recipient_name = recipient_name(text, trigger_word)
+    recipient_name = MessageParser.new(text, trigger_word).recipient_name
     recipient_username = fetch_name(team.slack_token, recipient_name)
     raise MissingRecipient unless recipient_username.present?
 
@@ -38,9 +38,5 @@ class PrepareRecipient
 
   def clean_name(name)
     name.gsub(/^(@+)/, "")
-  end
-
-  def recipient_name(text, trigger_word)
-    MessageParser.new(text, trigger_word).recipient_name
   end
 end
