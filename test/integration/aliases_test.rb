@@ -2,6 +2,7 @@ require "test_helper"
 
 class AliasesTest < ActionDispatch::IntegrationTest
   cover PlusOne
+  cover SlackController
 
   def test_only_allow_user_tags_as_aliases
     post "/slack/plus",
