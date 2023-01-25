@@ -116,7 +116,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
   private
 
   def assert_team_exists_in_an_ugly_way_until_we_fix_api
-    assert Team.find_by(slack_team_domain: "team1")
+    assert Team.find_by(slack_team_domain: "team1", slack_team_id: "team_id1")
   end
 
   def see_stats
