@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_03_220435) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_25_163532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_220435) do
     t.integer "points", default: 0, null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.index ["slack_user_name", "team_id"], name: "index_team_members_on_slack_user_name_and_team_id", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
