@@ -3,7 +3,7 @@ class SlackController < ApplicationController
 
   def plus
     result =
-      PlusOne.new.call(user_name, message, trigger_word, team_id, team_domain)
+      PlusOne.new.call(user_name, message, trigger_word, slack_team_id, slack_team_domain)
 
     render json: result
   rescue PlusOne::CannotPlusOneYourself
@@ -35,14 +35,14 @@ class SlackController < ApplicationController
   private
 
   def stats_query
-    Stats.new(team_id, team_domain)
+    Stats.new(slack_team_id, slack_team_domain)
   end
 
-  def team_domain
+  def slack_team_domain
     team_params.fetch(:team_domain)
   end
 
-  def team_id
+  def slack_team_id
     team_params.fetch(:team_id)
   end
 
