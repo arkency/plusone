@@ -18,7 +18,7 @@ class PrepareRecipient
           slack_user_name: Alias.find_by(user_alias: recipient_name).username
         )
     else
-      recipient = prepare_recipient(team, recipient_username)
+      recipient = team.register_member(recipient_username)
     end
     if user_tag_which_is_not_an_alias?(recipient, recipient_name)
       raise InvalidSlackToken
@@ -43,11 +43,5 @@ class PrepareRecipient
 
   def recipient_name(text, trigger_word)
     MessageParser.new(text, trigger_word).recipient_name
-  end
-
-  def prepare_recipient(team, user_name)
-    member = team.team_members.find_or_initialize_by(slack_user_name: user_name)
-    member.save!
-    member
   end
 end
