@@ -8,9 +8,9 @@ class PrepareRecipient
 
   def call(team, text, trigger_word)
     recipient_username =
-      fetch_name(team.slack_token, recipient_name(text, trigger_word))
+      fetch_name(team.slack_token, recipient_name = recipient_name(text, trigger_word))
     raise MissingRecipient unless recipient_username.present?
-    recipient_name = MessageParser.new(text, trigger_word).recipient_name
+
     if Alias.exists?(user_alias: recipient_name)
       recipient =
         team.team_members.find_by(
