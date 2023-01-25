@@ -25,7 +25,7 @@ class StatsTest < ActiveSupport::TestCase
     team.team_members.create!(slack_user_name: "user_name2", points: 666)
     team.team_members.create!(slack_user_name: "user_name3", points: 2)
 
-    assert_equal <<~RESULT.strip,  stats.received_upvotes
+    assert_equal <<~RESULT.strip, stats.received_upvotes
       666: user_name, user_name2
       2: user_name3
     RESULT
