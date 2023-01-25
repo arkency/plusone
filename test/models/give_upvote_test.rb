@@ -20,7 +20,7 @@ class GiveUpvoteTest < ActiveSupport::TestCase
   test "raises exception when try to plus one yourself" do
     assert_raises GiveUpvote::CannotUpvoteYourself do
       GiveUpvote.new.call(
-        invalid_user_name,
+        user_name_same_as_receiver,
         text_message,
         trigger_word,
         team
@@ -52,7 +52,7 @@ class GiveUpvoteTest < ActiveSupport::TestCase
     "user_name1"
   end
 
-  def invalid_user_name
+  def user_name_same_as_receiver
     "user_name2"
   end
 
