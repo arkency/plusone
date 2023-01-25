@@ -4,23 +4,23 @@ class GiveUpvoteTest < ActiveSupport::TestCase
   cover GiveUpvote
 
   test "pluses someone with valid params" do
-    GiveUpvote.new.call(
-      user_name,
+    result = GiveUpvote.new.call(
+      sender_user_name,
       text_message,
       trigger_word,
       team
     )
 
     assert_equal <<~RESULT.strip, stats.received_upvotes
-      1: user_name2
-      0: user_name1
+      1: #{receiver_user_name}
+      0: #{sender_user_name}
     RESULT
   end
 
   test "raises exception when try to plus one yourself" do
     assert_raises GiveUpvote::CannotUpvoteYourself do
       GiveUpvote.new.call(
-        user_name_same_as_receiver,
+        receiver_user_name,
         text_message,
         trigger_word,
         team
@@ -41,22 +41,18 @@ class GiveUpvoteTest < ActiveSupport::TestCase
   end
 
   def text_message
-    "+1 user_name2"
+    "+1 #{receiver_user_name}"
   end
 
   def trigger_word
     "+1"
   end
 
-  def user_name
+  def sender_user_name
     "user_name1"
   end
 
-  def user_name_same_as_receiver
+  def receiver_user_name
     "user_name2"
-  end
-
-  def user_id
-    "user_id1"
   end
 end
