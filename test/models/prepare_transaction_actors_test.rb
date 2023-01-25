@@ -22,7 +22,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
         team.slack_team_id,
-        service_params.merge({ text: "+1 name.with.dots.." }).fetch(:text),
+       "+1 name.with.dots..",
         trigger_word
       )
 
@@ -34,9 +34,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
         team.slack_team_id,
-        service_params.merge({ text: "+1 <http://asd.com|asd.com>" }).fetch(
-          :text
-        ),
+        "+1 <http://asd.com|asd.com>",
         trigger_word
       )
 
