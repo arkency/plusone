@@ -1,6 +1,5 @@
 class PlusOne
-  class CannotPlusOneYourself < StandardError
-  end
+  CannotPlusOneYourself = Class.new(StandardError)
 
   def initialize(slack_adapter = SlackAdapter.new)
     @slack_adapter = slack_adapter

@@ -16,7 +16,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
            format: :json
          }
     AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
-    assert_raises AliasNotAUserTag do
+    assert_raises AliasToUserTag::NotAUserTag do
       AliasToUserTag.new.call("user_name2", "new_alias")
     end
   end
@@ -85,7 +85,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
            format: :json
          }
     AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
-    assert_raises AliasAlreadyExists do
+    assert_raises AliasToUserTag::AlreadyExists do
       AliasToUserTag.new.call("user_name1", "<@U026BA51D>")
     end
   end

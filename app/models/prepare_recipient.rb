@@ -1,8 +1,6 @@
 class PrepareRecipient
-  class MissingRecipient < StandardError
-  end
-  class InvalidSlackToken < StandardError
-  end
+  MissingRecipient = Class.new(StandardError)
+  InvalidSlackToken = Class.new(StandardError)
 
   def initialize(slack_adapter)
     @slack_adapter = slack_adapter
