@@ -23,19 +23,19 @@ class SlackController < ApplicationController
   end
 
   def stats
-    msg = stats_query.received_upvotes(team_id, team_domain)
+    msg = stats_query.received_upvotes
     render json: { text: msg }
   end
 
   def givers
-    msg = stats_query.given_upvotes(team_id, team_domain)
+    msg = stats_query.given_upvotes
     render json: { text: msg }
   end
 
   private
 
   def stats_query
-    Stats.new
+    Stats.new(team_id, team_domain)
   end
 
   def team_domain

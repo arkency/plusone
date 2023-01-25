@@ -12,7 +12,7 @@ class PlusOneTest < ActiveSupport::TestCase
       team_domain
     )
 
-    assert_equal <<~RESULT.strip, stats.received_upvotes(team_id, team_domain)
+    assert_equal <<~RESULT.strip, stats.received_upvotes
       1: user_name2
       0: user_name1
     RESULT
@@ -29,7 +29,7 @@ class PlusOneTest < ActiveSupport::TestCase
       )
     end
 
-    assert_equal "", stats.received_upvotes(team_id, team_domain)
+    assert_equal "", stats.received_upvotes
   end
 
   def test_team_test
@@ -47,7 +47,7 @@ class PlusOneTest < ActiveSupport::TestCase
   private
 
   def stats
-    Stats.new
+    Stats.new(team_id, team_domain)
   end
 
   def team_params

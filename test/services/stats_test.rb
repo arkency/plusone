@@ -11,14 +11,14 @@ class StatsTest < ActiveSupport::TestCase
     Upvote.create(sender: member1, recipient: member2)
     Upvote.create(sender: member2, recipient: member1)
 
-    assert_equal <<~RESULT.strip, stats.given_upvotes(team_id, team_domain)
+    assert_equal <<~RESULT.strip, stats.given_upvotes
       2: user_name
       1: user_name2
     RESULT
   end
 
   test "given upvotes when no team_members present" do
-    assert_equal "", stats.given_upvotes(team_id, team_domain)
+    assert_equal "", stats.given_upvotes
   end
 
   test "received upvotes" do
@@ -27,20 +27,20 @@ class StatsTest < ActiveSupport::TestCase
     team.team_members.create!(slack_user_name: "user_name2", points: 666)
     team.team_members.create!(slack_user_name: "user_name3", points: 2)
 
-    assert_equal <<~RESULT.strip,  stats.received_upvotes(team_id, team_domain)
+    assert_equal <<~RESULT.strip,  stats.received_upvotes
       666: user_name, user_name2
       2: user_name3
     RESULT
   end
 
   test "received upvotes when no team_members present" do
-    assert_equal "", stats.received_upvotes(team_id, team_domain)
+    assert_equal "", stats.received_upvotes
   end
 
   private
 
   def stats
-    Stats.new
+    Stats.new(team_id, team_domain)
   end
 
   def team_domain

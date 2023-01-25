@@ -1,7 +1,10 @@
 class Stats
-  def received_upvotes(team_id, team_domain)
-    team = PrepareTeam.new.call(team_id, team_domain)
-    grouped_data = team.team_members.group_by(&:points)
+  def initialize(team_id, team_domain)
+    @team = PrepareTeam.new.call(team_id, team_domain)
+  end
+
+  def received_upvotes
+    grouped_data = @team.team_members.group_by(&:points)
     grouped_data
       .keys
       .sort
@@ -13,10 +16,9 @@ class Stats
       .join("\n")
   end
 
-  def given_upvotes(team_id, team_domain)
-    team = PrepareTeam.new.call(team_id, team_domain)
+  def given_upvotes
     grouped_data =
-      team
+      @team
         .team_members
         .includes(:given_upvotes)
         .map do |x|
