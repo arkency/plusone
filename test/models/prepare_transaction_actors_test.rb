@@ -2,15 +2,15 @@ require "test_helper"
 
 class PrepareTransactionActorsTest < ActiveSupport::TestCase
   test "returns sender and recipient with name from slack in array" do
-    team.register_member(service_params[:user_name])
+    team.register_member(user_name)
     team.update(slack_token: "valid")
     sender =
-      PrepareSender.new.call(team.slack_team_id, service_params[:user_name])
+      PrepareSender.new.call(team.slack_team_id, user_name)
     recipient =
       PrepareRecipient.new(InMemorySlackAdapter.new).call(
         team.slack_team_id,
         service_params.fetch(:text),
-        service_params.fetch(:trigger_word)
+        trigger_word
       )
 
     assert_equal "username", sender.slack_user_name
@@ -23,7 +23,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
       PrepareRecipient.new(SlackAdapter.new).call(
         team.slack_team_id,
         service_params.merge({ text: "+1 name.with.dots.." }).fetch(:text),
-        service_params.fetch(:trigger_word)
+        trigger_word
       )
 
     assert_equal "name.with.dots", recipient.slack_user_name
@@ -37,7 +37,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
         service_params.merge({ text: "+1 <http://asd.com|asd.com>" }).fetch(
           :text
         ),
-        service_params.fetch(:trigger_word)
+        trigger_word
       )
 
     assert_equal "asd.com", recipient.slack_user_name
@@ -47,6 +47,14 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
 
   def team
     Team.register("team_id", "kakadudu")
+  end
+
+  def user_name
+    "username"
+  end
+
+  def trigger_word
+    "+1"
   end
 
   def service_params
