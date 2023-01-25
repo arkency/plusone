@@ -23,16 +23,20 @@ class SlackController < ApplicationController
   end
 
   def stats
-    msg = Stats.new.received(team_id, team_domain)
+    msg = stats_query.received(team_id, team_domain)
     render json: { text: msg }
   end
 
   def givers
-    msg = Stats.new.given(team_id, team_domain)
+    msg = stats_query.given(team_id, team_domain)
     render json: { text: msg }
   end
 
   private
+
+  def stats_query
+    Stats.new
+  end
 
   def team_domain
     team_params.fetch(:team_domain)
