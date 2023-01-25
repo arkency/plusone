@@ -3,7 +3,13 @@ class SlackController < ApplicationController
 
   def plus
     recipient, sender =
-      PlusOne.new.call(user_name, message, trigger_word, slack_team_id, slack_team_domain)
+      PlusOne.new.call(
+        user_name,
+        message,
+        trigger_word,
+        slack_team_id,
+        slack_team_domain
+      )
     render json: SlackMessages.slack_output_message(recipient, sender)
   rescue PlusOne::CannotPlusOneYourself
     render json: SlackMessages.cant_plus_one_yourself

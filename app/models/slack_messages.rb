@@ -18,7 +18,9 @@ class SlackMessages
   end
 
   def self.invalid_slack_token
-    raw("This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @")
+    raw(
+      "This slack team doesn't have specified slack token(or it's invalid). Please use nickname without @"
+    )
   end
 
   def self.alias_success(aliass, user_name)
@@ -26,6 +28,8 @@ class SlackMessages
   end
 
   def self.slack_output_message(recipient, sender)
-    raw("#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})").merge(parse: "none")
+    raw(
+      "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})"
+    ).merge(parse: "none")
   end
 end
