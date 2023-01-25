@@ -1,17 +1,7 @@
 class GetStats
   def call(team_id, team_domain)
     team = PrepareTeam.new.call(team_id, team_domain)
-    format(fetch_data(team))
-  end
-
-  private
-
-  def fetch_data(team)
-    team.team_members
-  end
-
-  def format(data)
-    grouped_data = data.group_by(&:points)
+    grouped_data = team.team_members.group_by(&:points)
     grouped_data
       .keys
       .sort
