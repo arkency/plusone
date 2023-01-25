@@ -18,9 +18,7 @@ class GetGiversStatsTest < ActiveSupport::TestCase
   end
 
   test "returns empty string when no team_members present" do
-    result = Stats.new.given(team_id, team_domain)
-    expected_result = ""
-    assert_equal(expected_result, result)
+    assert_equal "", Stats.new.given(team_id, team_domain)
   end
 
   private
