@@ -2,19 +2,12 @@ require "test_helper"
 
 class GetGiversStatsTest < ActiveSupport::TestCase
   test "returns statistics" do
-    team =
-      PrepareTeam.new.call(team_id, team_domain )
+    team = PrepareTeam.new.call(team_id, team_domain)
     member1 =
-      team.team_members.create!(
-        slack_user_name: "user_name",
-        points: 666
-      )
+      team.team_members.create!(slack_user_name: "user_name", points: 666)
 
     member2 =
-      team.team_members.create!(
-        slack_user_name: "user_name2",
-        points: 2
-      )
+      team.team_members.create!(slack_user_name: "user_name2", points: 2)
 
     Upvote.create(sender: member1, recipient: member2)
     Upvote.create(sender: member1, recipient: member2)

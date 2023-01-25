@@ -1,7 +1,6 @@
 class GetGiversStats
   def call(team_id, team_domain)
-    team =
-      PrepareTeam.new.call(team_id, team_domain)
+    team = PrepareTeam.new.call(team_id, team_domain)
     data = fetch_data(team)
     format(data)
   end
