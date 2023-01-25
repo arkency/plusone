@@ -12,7 +12,7 @@ class PlusOneTest < ActiveSupport::TestCase
       team_domain
     )
 
-    result = GetStats.new.call(team_id, team_domain)
+    result = Stats.new.received(team_id, team_domain)
     expected_result = "1: user_name2\n0: user_name1"
     assert_equal(result, expected_result)
   end
@@ -28,7 +28,7 @@ class PlusOneTest < ActiveSupport::TestCase
       )
     end
 
-    result = GetStats.new.call(team_id, team_domain)
+    result = Stats.new.received(team_id, team_domain)
     expected_result = ""
     assert_equal(result, expected_result)
   end

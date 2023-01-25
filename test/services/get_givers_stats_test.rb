@@ -12,13 +12,13 @@ class GetGiversStatsTest < ActiveSupport::TestCase
     Upvote.create(sender: member1, recipient: member2)
     Upvote.create(sender: member1, recipient: member2)
     Upvote.create(sender: member2, recipient: member1)
-    result = GetGiversStats.new.call(team_id, team_domain)
+    result = Stats.new.given(team_id, team_domain)
     expected_result = "2: user_name\n1: user_name2"
     assert_equal(expected_result, result)
   end
 
   test "returns empty string when no team_members present" do
-    result = GetGiversStats.new.call(team_id, team_domain)
+    result = Stats.new.given(team_id, team_domain)
     expected_result = ""
     assert_equal(expected_result, result)
   end
