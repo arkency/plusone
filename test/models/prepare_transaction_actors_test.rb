@@ -7,7 +7,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     sender = team.register_member(user_name)
     recipient =
       PrepareRecipient.new(InMemorySlackAdapter.new).call(
-        team.slack_team_id,
+        team,
         "+1 <@username2>",
         trigger_word
       )
@@ -20,7 +20,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     team.update(slack_token: "valid")
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
-        team.slack_team_id,
+        team,
         "+1 name.with.dots..",
         trigger_word
       )
@@ -32,7 +32,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     team.update(slack_token: "valid")
     recipient =
       PrepareRecipient.new(SlackAdapter.new).call(
-        team.slack_team_id,
+        team,
         "+1 <http://asd.com|asd.com>",
         trigger_word
       )

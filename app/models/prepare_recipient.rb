@@ -6,8 +6,7 @@ class PrepareRecipient
     @slack_adapter = slack_adapter
   end
 
-  def call(team_id, text, trigger_word)
-    team = Team.find_by(slack_team_id: team_id)
+  def call(team, text, trigger_word)
     recipient_username =
       fetch_name(team.slack_token, recipient_name(text, trigger_word))
     raise MissingRecipient unless recipient_username.present?

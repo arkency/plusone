@@ -10,7 +10,7 @@ class PlusOne
       team = Team.register(team_id, team_domain)
       sender = team.register_member(user_name)
       recipient =
-        PrepareRecipient.new(@slack_adapter).call(team_id, text, trigger_word)
+        PrepareRecipient.new(@slack_adapter).call(team, text, trigger_word)
 
       recipient.receive_upvote(sender)
       [recipient, sender]
