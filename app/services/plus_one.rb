@@ -2,24 +2,17 @@ class PlusOne
   class CannotPlusOneYourself < StandardError
   end
 
-  def call(params, team_params)
+  def call(user_name, text, trigger_word, team_id, team_domain)
     ActiveRecord::Base.transaction do
       Team.find_or_create_by(
-        slack_team_id: team_params.fetch(:team_id),
-        slack_team_domain: team_params.fetch(:team_domain)
+        slack_team_id: team_id,
+        slack_team_domain: team_domain
       )
-      RegisterTeamMember.new.call(team_params.fetch(:team_id), params.fetch(:user_name))
+      RegisterTeamMember.new.call(team_id, user_name)
 
-      sender =
-        PrepareSender.new.call(
-          team_params.fetch(:team_id),
-          params.fetch(:user_name)
-        )
+      sender = PrepareSender.new.call(team_id, user_name)
       recipient =
-        PrepareRecipient.new(SlackAdapter.new).call(
-          team_params.fetch(:team_id),
-          params
-        )
+        PrepareRecipient.new(SlackAdapter.new).call(team_id, text, trigger_word)
 
       raise CannotPlusOneYourself if sender.eql?(recipient)
 

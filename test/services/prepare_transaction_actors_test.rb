@@ -16,7 +16,8 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     recipient =
       PrepareRecipient.new(slack_adapter).call(
         team.slack_team_id,
-        service_params
+        service_params.fetch(:text),
+        service_params.fetch(:trigger_word),
       )
     assert_equal("username", sender.slack_user_name)
     assert_equal("username2", recipient.slack_user_name)
@@ -28,7 +29,8 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     recipient =
       PrepareRecipient.new(slack_adapter).call(
         team.slack_team_id,
-        service_params.merge({ text: "+1 name.with.dots.." })
+        service_params.merge({ text: "+1 name.with.dots.." }).fetch(:text),
+        service_params.fetch(:trigger_word),
       )
     assert_equal("name.with.dots", recipient.slack_user_name)
   end
@@ -39,7 +41,8 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
     recipient =
       PrepareRecipient.new(slack_adapter).call(
         team.slack_team_id,
-        service_params.merge({ text: "+1 <http://asd.com|asd.com>" })
+        service_params.merge({ text: "+1 <http://asd.com|asd.com>" }).fetch(:text),
+        service_params.fetch(:trigger_word),
       )
     assert_equal("asd.com", recipient.slack_user_name)
   end
@@ -47,7 +50,7 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
   private
 
   def team_params
-    { team_id: "team_id", team_domain: "team_domain" }
+    { team_id: "team_id", team_domain: "kakadudu" }
   end
 
   def team

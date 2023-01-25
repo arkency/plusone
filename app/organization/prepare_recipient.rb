@@ -8,16 +8,16 @@ class PrepareRecipient
     @slack_adapter = slack_adapter
   end
 
-  def call(team_id, params)
+  def call(team_id, text, trigger_word)
     team = Team.find_by(slack_team_id: team_id)
     recipient_username =
       fetch_name(
         team.slack_token,
-        recipient_name(params.slice(:text, :trigger_word))
+        recipient_name(text, trigger_word)
       )
     raise MissingRecipient unless recipient_username.present?
     recipient_name =
-      MessageParser.new(params[:text], params[:trigger_word]).recipient_name
+      MessageParser.new(text, trigger_word).recipient_name
     if Alias.exists?(user_alias: recipient_name)
       recipient =
         team.team_members.find_by(
@@ -47,10 +47,10 @@ class PrepareRecipient
     name.gsub(/^(@+)/, "")
   end
 
-  def recipient_name(text_params)
+  def recipient_name(text, trigger_word)
     MessageParser.new(
-      text_params[:text],
-      text_params[:trigger_word]
+      text,
+      trigger_word
     ).recipient_name
   end
 

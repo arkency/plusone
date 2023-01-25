@@ -7,6 +7,7 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
 
   def test_add_points_for_nonexisting_team_see_stats
     add_points
+    assert_team_exists_in_an_ugly_way_until_we_fix_api
     see_stats
     see_givers
     add_points
@@ -115,6 +116,10 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def assert_team_exists_in_an_ugly_way_until_we_fix_api
+    assert Team.find_by(slack_team_domain: "team1")
+  end
 
   def see_stats
     post "/slack/plus",
