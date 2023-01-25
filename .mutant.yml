@@ -11,6 +11,5 @@ matcher:
     - SlackController#plus_params
     - SlackController#team_params
   subjects:
-    - PlusOne
-    - RegisterTeamMember
+    - GiveUpvote
     - SlackController
