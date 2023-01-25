@@ -1,10 +1,10 @@
 require "test_helper"
 
 class PlusOneTest < ActiveSupport::TestCase
-  cover PlusOne
+  cover GiveUpvote
 
   test "pluses someone with valid params" do
-    PlusOne.new.call(
+    GiveUpvote.new.call(
       user_name,
       text_message,
       trigger_word,
@@ -18,8 +18,8 @@ class PlusOneTest < ActiveSupport::TestCase
   end
 
   test "raises exception when try to plus one yourself" do
-    assert_raises PlusOne::CannotPlusOneYourself do
-      PlusOne.new.call(
+    assert_raises GiveUpvote::CannotUpvoteYourself do
+      GiveUpvote.new.call(
         invalid_user_name,
         text_message,
         trigger_word,
@@ -31,7 +31,7 @@ class PlusOneTest < ActiveSupport::TestCase
   end
 
   def test_team_test
-    PlusOne.new.call(
+    GiveUpvote.new.call(
       user_name,
       text_message,
       trigger_word,

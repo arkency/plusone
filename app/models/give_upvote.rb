@@ -1,5 +1,5 @@
-class PlusOne
-  CannotPlusOneYourself = Class.new(StandardError)
+class GiveUpvote
+  CannotUpvoteYourself = Class.new(StandardError)
 
   def initialize(slack_adapter = SlackAdapter.new)
     @slack_adapter = slack_adapter

@@ -3,14 +3,14 @@ class SlackController < ApplicationController
 
   def plus
     recipient, sender =
-      PlusOne.new.call(
+      GiveUpvote.new.call(
         user_name,
         message,
         trigger_word,
         team
       )
     render json: SlackMessages.slack_output_message(recipient, sender)
-  rescue PlusOne::CannotPlusOneYourself
+  rescue GiveUpvote::CannotUpvoteYourself
     render json: SlackMessages.cant_plus_one_yourself
   rescue PrepareRecipient::InvalidSlackToken
     render json: SlackMessages.invalid_slack_token

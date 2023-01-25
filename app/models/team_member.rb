@@ -5,7 +5,7 @@ class TeamMember < ActiveRecord::Base
   has_many :given_upvotes, class_name: "Upvote", foreign_key: "sender_id"
 
   def receive_upvote(sender)
-    raise PlusOne::CannotPlusOneYourself if sender.eql?(self)
+    raise GiveUpvote::CannotUpvoteYourself if sender.eql?(self)
 
     increment!(:points)
     Upvote.create(recipient: self, sender: sender)
