@@ -1,5 +1,5 @@
 class Stats
-  def received(team_id, team_domain)
+  def received_upvotes(team_id, team_domain)
     team = PrepareTeam.new.call(team_id, team_domain)
     grouped_data = team.team_members.group_by(&:points)
     grouped_data
@@ -13,7 +13,7 @@ class Stats
       .join("\n")
   end
 
-  def given(team_id, team_domain)
+  def given_upvotes(team_id, team_domain)
     team = PrepareTeam.new.call(team_id, team_domain)
     grouped_data =
       team
