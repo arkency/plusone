@@ -14,10 +14,7 @@ class PlusOne
       recipient =
         PrepareRecipient.new(SlackAdapter.new).call(team_id, text, trigger_word)
 
-      raise CannotPlusOneYourself if sender.eql?(recipient)
-
-      recipient.increment!(:points)
-      Upvote.create(recipient: recipient, sender: sender)
+      recipient.receive_upvote(sender)
 
       SlackMessages.slack_output_message(recipient, sender)
     end
