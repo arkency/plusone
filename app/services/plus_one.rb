@@ -55,12 +55,7 @@ class PlusOne
   end
 
   def register_sender_if_needed(team_id, user_name)
-    unless Team
-             .find_by(slack_team_id: team_id)
-             .team_members
-             .exists?(slack_user_name: user_name)
-      register_team_member(user_name, team_id)
-    end
+    register_team_member(user_name, team_id)
   end
 
   def register_team_member(user_name, team_id)
