@@ -13,7 +13,6 @@ class PrepareTransactionActorsTest < ActiveSupport::TestCase
       PrepareSender.new.call(
         team.slack_team_id,
         service_params[:user_name],
-        service_params[:user_id]
       )
     recipient =
       PrepareRecipient.new(slack_adapter).call(

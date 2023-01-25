@@ -16,15 +16,13 @@ class PlusOne
       register_team_if_needed(team_params)
       register_sender_if_needed(
         team_params.fetch(:team_id),
-        params.fetch(:user_name),
-        params.fetch(:user_id)
+        params.fetch(:user_name)
       )
 
       sender =
         PrepareSender.new.call(
           team_params.fetch(:team_id),
-          params.fetch(:user_name),
-          params.fetch(:user_id)
+          params.fetch(:user_name)
         )
       recipient =
         PrepareRecipient.new(SlackAdapter.new).call(
@@ -56,17 +54,17 @@ class PlusOne
     register_team(slack_team) unless team_exists?(slack_team)
   end
 
-  def register_sender_if_needed(team_id, user_name, slack_user_id)
+  def register_sender_if_needed(team_id, user_name)
     unless Team
              .find_by(slack_team_id: team_id)
              .team_members
              .exists?(slack_user_name: user_name)
-      register_team_member(user_name, slack_user_id, team_id)
+      register_team_member(user_name, team_id)
     end
   end
 
-  def register_team_member(user_name, slack_user_id, team_id)
-    RegisterTeamMember.new.call(team_id, user_name, slack_user_id)
+  def register_team_member(user_name, team_id)
+    RegisterTeamMember.new.call(team_id, user_name, nil)
   end
 
   def slack_team(team_params)
