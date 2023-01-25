@@ -4,8 +4,8 @@ class PlusOne
 
   def call(user_name, text, trigger_word, team_id, team_domain)
     ActiveRecord::Base.transaction do
-      Team.register(team_id, team_domain)
-      RegisterTeamMember.new.call(team_id, user_name)
+      team = Team.register(team_id, team_domain)
+      team.register_member(user_name)
 
       sender = PrepareSender.new.call(team_id, user_name)
       recipient =

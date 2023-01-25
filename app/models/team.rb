@@ -7,4 +7,8 @@ class Team < ActiveRecord::Base
       team.save!
     end
   end
+
+  def register_member(user_name)
+    team_members.find_or_create_by(slack_user_name: user_name)
+  end
 end
