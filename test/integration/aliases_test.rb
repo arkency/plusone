@@ -31,7 +31,6 @@ class AliasesTest < ActionDispatch::IntegrationTest
            user_id: "user_id1",
            format: :json
          }
-    #AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
     post "/slack/plus",
          params: {
            team_domain: "team1",
