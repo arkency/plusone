@@ -4,33 +4,29 @@ class Stats
   end
 
   def received_upvotes
-    grouped_data = TeamMember.where(team_id: @team_id).group_by(&:points)
-    grouped_data
-      .keys
-      .sort
-      .reverse_each
-      .map do |key|
-        members = grouped_data[key].map { |tm| tm.slack_user_name }.join(", ")
-        "#{key}: #{members}"
-      end
-      .join("\n")
+    TeamMember
+      .where(team_id: @team_id)
+      .order("points DESC")
+      .group_by(&:points)
+      .then(&method(:format))
   end
 
   def given_upvotes
-    grouped_data =
-      TeamMember.where(team_id: @team_id)
-        .includes(:given_upvotes)
-        .map do |x|
-          { name: x.slack_user_name, given_upvotes: x.given_upvotes.length }
-        end
-        .group_by { |x| x[:given_upvotes] }
-    grouped_data
-      .keys
-      .sort
+    TeamMember
+      .where(team_id: @team_id)
+      .includes(:given_upvotes)
+      .sort_by { |tm| tm.given_upvotes.size }
       .reverse_each
-      .map do |key|
-        members = grouped_data[key].map { |tm| tm[:name] }.join(", ")
-        "#{key}: #{members}"
+      .group_by { |tm| tm.given_upvotes.size }
+      .then(&method(:format))
+  end
+
+  private
+
+  def format(hash)
+    hash
+      .map do |count, team_members|
+        "#{count}: #{team_members.map(&:slack_user_name).join(", ")}"
       end
       .join("\n")
   end
