@@ -59,6 +59,15 @@ class AliasesTest < ActionDispatch::IntegrationTest
 
     assert_equal("<@U026BA51D> is now an alias to user_name2", JSON(response.body)["text"])
   end
+
+  def test_alias_with_typo
+    assert_raises ActionController::ParameterMissing do
+    post "/slack/plus",
+         params: {
+           text: "+1 !alien user_name2 <@U026BA51D>",
+           trigger_word: "+1"
+         }
+    end
   end
 
   def test_stats_show_aliases_together
