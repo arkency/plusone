@@ -88,6 +88,7 @@ GEM
     erubi (1.12.0)
     globalid (1.0.1)
       activesupport (>= 5.0)
+    honeybadger (5.0.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     loofah (2.19.1)
@@ -208,6 +209,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv-rails
+  honeybadger
   mutant
   mutant-license!
   mutant-minitest
