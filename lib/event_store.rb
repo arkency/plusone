@@ -1,0 +1,1 @@
+EventStore = Class.new(RubyEventStore::JSONClient)
