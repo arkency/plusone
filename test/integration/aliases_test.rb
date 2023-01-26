@@ -140,7 +140,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
     post "/slack/plus",
          params: {
            text: "+1 !alias #{username} #{user_alias}",
-           trigger_word: "+1",
+           trigger_word: "+1"
          }
   end
 end

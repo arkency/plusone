@@ -27,9 +27,7 @@ class Stats
 
   def format(hash)
     hash
-      .map do |count, members|
-        "#{count}: #{members.map(&:name).join(", ")}"
-      end
+      .map { |count, members| "#{count}: #{members.map(&:name).join(", ")}" }
       .join("\n")
   end
 end

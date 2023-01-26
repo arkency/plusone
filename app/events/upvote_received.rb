@@ -1,0 +1,1 @@
+UpvoteReceived = Class.new(Event)
