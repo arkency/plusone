@@ -11,3 +11,5 @@ matcher:
     - GiveUpvote
     - SlackController
     - InMemorySlackAdapter
+    - AliasToUserTag
+    - AliasMessageParser
