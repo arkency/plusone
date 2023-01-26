@@ -56,6 +56,9 @@ class AliasesTest < ActionDispatch::IntegrationTest
            text: "dej plusika dla !alias user_name2 <@U026BA51D>",
            trigger_word: "dej plusika dla"
          }
+
+    assert_equal("<@U026BA51D> is now an alias to user_name2", JSON(response.body)["text"])
+  end
   end
 
   def test_stats_show_aliases_together
