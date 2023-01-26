@@ -11,6 +11,9 @@ class EventStore < RailsEventStore::JSONClient
     RubyEventStore::Mappers::InstrumentedMapper.new(
       RubyEventStore::Mappers::PipelineMapper.new(
         RubyEventStore::Mappers::Pipeline.new(
+          RubyEventStore::Mappers::Transformation::Upcast.new({
+            "UpvoteReceived" => UpvoteReceivedV2.from_v1
+          }),
           RubyEventStore::Mappers::Transformation::PreserveTypes
             .new
             .register(Symbol, serializer: ->(v) { v.to_s }, deserializer: ->(v) { v.to_sym })

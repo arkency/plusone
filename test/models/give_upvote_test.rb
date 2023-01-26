@@ -27,9 +27,10 @@ class GiveUpvoteTest < ActiveSupport::TestCase
       GiveUpvote.new.call(sender_user_name, text_message, trigger_word, team)
 
     last_event = Rails.configuration.event_store.read.last
-    assert_equal "UpvoteReceived", last_event.event_type
+    assert_equal "UpvoteReceivedV2", last_event.event_type
     assert_equal recipient.id, last_event.data[:recipient_id]
     assert_equal sender.id, last_event.data[:sender_id]
+    assert_equal team.id, last_event.data[:team_id]
   end
 
   test "no duplicate events from upvotes" do
@@ -38,11 +39,30 @@ class GiveUpvoteTest < ActiveSupport::TestCase
 
     assert_raises RubyEventStore::WrongExpectedEventVersion do
       Rails.configuration.event_store.append(
-        UpvoteReceived.new,
+        UpvoteReceivedV2.new,
         stream_name: "Upvote$#{upvote.id}",
         expected_version: :none
       )
     end
+  end
+
+  test "upcasting from previus event version" do
+    recipient, sender =
+      GiveUpvote.new.call(sender_user_name, text_message, trigger_word, team)
+
+    Rails.configuration.event_store.append(
+      UpvoteReceived.new(
+        event_id: event_id = SecureRandom.uuid,
+        data: {
+          recipient_id: recipient.id,
+          sender_id: sender.id
+        }
+      )
+    )
+    last_event = Rails.configuration.event_store.read.last
+    assert_equal "UpvoteReceivedV2", last_event.event_type
+    assert_equal team.id, last_event.data[:team_id]
+    assert_equal event_id, last_event.event_id
   end
 
   private

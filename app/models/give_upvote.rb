@@ -28,10 +28,11 @@ class GiveUpvote
   end
 
   def upvote_received(recipient, sender)
-    UpvoteReceived.new(
+    UpvoteReceivedV2.new(
       data: {
         recipient_id: recipient.id,
-        sender_id: sender.id
+        sender_id: sender.id,
+        team_id: sender.team_id
       }
     )
   end
