@@ -9,9 +9,8 @@ class RichtigParser < Parslet::Parser
   rule(:plus_one) { str("+1").as(:plus_one) }
   rule(:alias_keyword) { str("!alias").as(:alias_keyword) }
   rule(:username) { match["\\w"].repeat(1).as(:username) }
-  rule(:user_alias) { str("@johndoe").as(:user_alias) }
-
-  rule(:expected_sentence) { plus_one >> space? >> alias_keyword >> space? >> username >> space? >> user_alias }
+  rule(:user_alias) {  match("[<@U[0-9A-Z]{8}>]").repeat(1).as(:user_alias) }
+  rule(:expected_sentence) { plus_one >> space? >> alias_keyword >> space? >> username >> space? >> user_alias >> space? }
 
   root(:expected_sentence)
 end
