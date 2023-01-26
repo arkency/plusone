@@ -6,13 +6,13 @@ class AliasMessageParser
 
   def user_name
     beginning = @trigger_word.size + " !alias".size
-    remaining = @text.from(beginning)
+    remaining = @text.at(beginning..)
     remaining.split.first
   end
 
   def aliass
     beginning = @trigger_word.size + " !alias".size
-    remaining = @text.from(beginning)
+    remaining = @text.at(beginning..)
     remaining.split.second
   end
 end
