@@ -71,6 +71,10 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    aggregate_root (2.9.0)
+      ruby_event_store (= 2.9.0)
+    arkency-command_bus (0.4.1)
+      concurrent-ruby
     ast (2.4.2)
     builder (3.2.4)
     concurrent-ruby (1.2.0)
@@ -155,6 +159,17 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.5.0)
       loofah (~> 2.19, >= 2.19.1)
+    rails_event_store (2.9.0)
+      activejob (>= 6.0)
+      activemodel (>= 6.0)
+      activesupport (>= 6.0)
+      aggregate_root (= 2.9.0)
+      arkency-command_bus (>= 0.4)
+      rails_event_store_active_record (= 2.9.0)
+      ruby_event_store (= 2.9.0)
+      ruby_event_store-browser (= 2.9.0)
+    rails_event_store_active_record (2.9.0)
+      ruby_event_store-active_record (= 2.9.0)
     railties (7.0.4.2)
       actionpack (= 7.0.4.2)
       activesupport (= 7.0.4.2)
@@ -164,6 +179,14 @@ GEM
       zeitwerk (~> 2.5)
     rake (13.0.6)
     regexp_parser (2.6.2)
+    ruby_event_store (2.9.0)
+      concurrent-ruby (~> 1.0, >= 1.1.6)
+    ruby_event_store-active_record (2.9.0)
+      activerecord (>= 6.0)
+      ruby_event_store (= 2.9.0)
+    ruby_event_store-browser (2.9.0)
+      rack
+      ruby_event_store (= 2.9.0)
     sorbet-runtime (0.5.10632)
     thor (1.2.1)
     timeout (0.3.1)
@@ -191,6 +214,7 @@ DEPENDENCIES
   pg
   puma
   rails (~> 7.0.4)
+  rails_event_store (~> 2.9.0)
 
 BUNDLED WITH
    2.3.26

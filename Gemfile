@@ -15,3 +15,4 @@ group :test do
   gem "mutant", require: false
   gem "mutant-license", require: false, source: "https://oss:7AXfeZdAfCqL1PvHm2nvDJO6Zd9UW8IK@gem.mutant.dev"
 end
+gem "rails_event_store", "~> 2.9.0"
