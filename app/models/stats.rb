@@ -6,18 +6,22 @@ class Stats
   def received_upvotes
     TeamMember
       .where(team_id: @team_id)
-      .order("points DESC")
-      .group_by(&:points)
+      .left_joins(:received_upvotes)
+      .select("COUNT(recipient_id) AS count, slack_user_name AS name")
+      .group("slack_user_name")
+      .order("COUNT(recipient_id) DESC")
+      .group_by(&:count)
       .then(&method(:format))
   end
 
   def given_upvotes
     TeamMember
       .where(team_id: @team_id)
-      .includes(:given_upvotes)
-      .sort_by { |tm| tm.given_upvotes.size }
-      .reverse_each
-      .group_by { |tm| tm.given_upvotes.size }
+      .left_joins(:given_upvotes)
+      .select("COUNT(sender_id) AS count, slack_user_name AS name")
+      .group("slack_user_name")
+      .order("COUNT(sender_id) DESC")
+      .group_by(&:count)
       .then(&method(:format))
   end
 
@@ -25,8 +29,8 @@ class Stats
 
   def format(hash)
     hash
-      .map do |count, team_members|
-        "#{count}: #{team_members.map(&:slack_user_name).join(", ")}"
+      .map do |count, members|
+        "#{count}: #{members.map(&:name).join(", ")}"
       end
       .join("\n")
   end
