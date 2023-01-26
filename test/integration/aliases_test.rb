@@ -39,6 +39,25 @@ class AliasesTest < ActionDispatch::IntegrationTest
     alias_user_name("user_name2", "<@U026BA51D>")
   end
 
+  def test_can_alias_with_exotic_trigger_word
+    post "/slack/plus",
+         params: {
+           team_domain: "team1",
+           trigger_word: "+1",
+           text: "+1 user_name2",
+           team_id: "team_id1",
+           user_name: "user_name1",
+           user_id: "user_id1",
+           format: :json
+         }
+
+    post "/slack/plus",
+         params: {
+           text: "dej plusika dla !alias user_name2 <@U026BA51D>",
+           trigger_word: "dej plusika dla"
+         }
+  end
+
   def test_stats_show_aliases_together
     post "/slack/plus",
          params: {
