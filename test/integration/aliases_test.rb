@@ -23,6 +23,22 @@ class AliasesTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_can_alias_different_users
+    post "/slack/plus",
+         params: {
+           team_domain: "team1",
+           trigger_word: "+1",
+           text: "+1 user_name2",
+           team_id: "team_id1",
+           user_name: "user_name1",
+           user_id: "user_id1",
+           format: :json
+         }
+
+    alias_user_name("user_name1", "<@U055CC67F>")
+    alias_user_name("user_name2", "<@U026BA51D>")
+  end
+
   def test_stats_show_aliases_together
     post "/slack/plus",
          params: {
