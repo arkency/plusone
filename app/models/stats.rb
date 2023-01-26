@@ -6,10 +6,8 @@ class Stats
   def received_upvotes
     TeamMember
       .where(team_id: @team_id)
-      .left_joins(:received_upvotes)
-      .select("COUNT(recipient_id) AS count, slack_user_name AS name")
-      .group("slack_user_name")
-      .order("COUNT(recipient_id) DESC")
+      .select("points AS count, slack_user_name AS name")
+      .order("points DESC")
       .group_by(&:count)
       .then(&method(:format))
   end
