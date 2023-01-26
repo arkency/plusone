@@ -5,14 +5,17 @@ class AliasMessageParser
   end
 
   def user_name
-    beginning = @trigger_word.size + " !alias".size
-    remaining = @text.at(beginning..)
-    remaining.split.first
+    username_alias.first
   end
 
   def aliass
+    username_alias.last
+  end
+
+  private
+  def username_alias
     beginning = @trigger_word.size + " !alias".size
     remaining = @text.at(beginning..)
-    remaining.split.second
+    remaining.split
   end
 end
