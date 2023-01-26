@@ -1,3 +1,3 @@
 require "rails_event_store"
 
-EventStore = Class.new(RubyEventStore::JSONClient)
+EventStore = Class.new(RailsEventStore::JSONClient)
