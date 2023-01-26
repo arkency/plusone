@@ -14,9 +14,10 @@ class AliasesTest < ActionDispatch::IntegrationTest
            user_id: "user_id1",
            format: :json
          }
-    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
+
+    alias_user_name("user_name_2", "<@U026BA51D>")
     assert_raises AliasToUserTag::NotAUserTag do
-      AliasToUserTag.new.call("user_name2", "new_alias")
+      alias_user_name("user_name_2", "new_alias")
     end
   end
 
@@ -82,9 +83,9 @@ class AliasesTest < ActionDispatch::IntegrationTest
            user_id: "user_id1",
            format: :json
          }
-    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
+    alias_user_name("user_name_2", "<@U026BA51D>")
     assert_raises AliasToUserTag::AlreadyExists do
-      AliasToUserTag.new.call("user_name1", "<@U026BA51D>")
+      alias_user_name("user_name_2", "<@U026BA51D>")
     end
   end
 
@@ -99,7 +100,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
            user_id: "user_id1",
            format: :json
          }
-    AliasToUserTag.new.call("user_name2", "<@U026BA51D>")
+    alias_user_name("user_name2", "<@U026BA51D>")
     post "/slack/plus",
          params: {
            team_domain: "team1",
@@ -113,5 +114,15 @@ class AliasesTest < ActionDispatch::IntegrationTest
     response_text = JSON(response.body)["text"]
     expected_plus_response = "Nope... not gonna happen."
     assert_equal(response_text, expected_plus_response)
+  end
+
+  private
+
+  def alias_user_name(username, user_alias)
+    post "/slack/plus",
+         params: {
+           text: "+1 !alias #{username} #{user_alias}",
+           trigger_word: "+1",
+         }
   end
 end
