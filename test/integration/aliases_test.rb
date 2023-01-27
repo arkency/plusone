@@ -18,9 +18,10 @@ class AliasesTest < ActionDispatch::IntegrationTest
          }
 
     alias_user_name("user_name2", "<@U026BA51D>")
-    assert_raises Parslet::ParseFailed do
-      alias_user_name("user_name2", "new_alias")
-    end
+    status_code = alias_user_name("user_name2", "new_alias")
+
+    assert_equal("Invalid user tag", JSON(response.body)["text"])
+    assert_equal(400, status_code)
   end
 
   def test_can_alias_different_users

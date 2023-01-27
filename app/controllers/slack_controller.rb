@@ -16,6 +16,9 @@ class SlackController < ApplicationController
     AliasToUserTag.new.call(result.fetch(:username), result.fetch(:user_alias))
 
     render json: SlackMessages.alias_success(result.fetch(:user_alias), result.fetch(:username))
+
+  rescue Parslet::ParseFailed
+    render json: SlackMessages.raw("Invalid user tag"), status: :bad_request
   end
 
   def empty
