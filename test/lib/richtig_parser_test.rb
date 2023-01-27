@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "richtig_parser"
+require "richtig"
 
 class RichtigParserTest < ActiveSupport::TestCase
   def test_explore_parslet
