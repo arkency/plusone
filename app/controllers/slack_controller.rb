@@ -12,10 +12,10 @@ class SlackController < ApplicationController
   end
 
   def alias
-    result = AliasMessageParser.new(message, trigger_word)
-    AliasToUserTag.new.call(result.user_name, result.aliass)
+    result = SlackAliasMessageParser.parse(message, trigger_word)
+    AliasToUserTag.new.call(result.fetch(:username), result.fetch(:user_alias))
 
-    render json: SlackMessages.alias_success(result.aliass, result.user_name)
+    render json: SlackMessages.alias_success(result.fetch(:user_alias), result.fetch(:username))
   end
 
   def empty

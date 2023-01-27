@@ -3,7 +3,7 @@ require "test_helper"
 class AliasesTest < ActionDispatch::IntegrationTest
   cover SlackController
   cover AliasToUserTag
-  cover AliasMessageParser
+  cover SlackAliasMessageParser
 
   def test_only_allow_user_tags_as_aliases
     post "/slack/plus",
@@ -18,7 +18,7 @@ class AliasesTest < ActionDispatch::IntegrationTest
          }
 
     alias_user_name("user_name2", "<@U026BA51D>")
-    assert_raises AliasToUserTag::NotAUserTag do
+    assert_raises Parslet::ParseFailed do
       alias_user_name("user_name2", "new_alias")
     end
   end

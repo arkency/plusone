@@ -12,4 +12,4 @@ matcher:
     - SlackController
     - InMemorySlackAdapter
     - AliasToUserTag
-    - AliasMessageParser
+    - SlackAliasMessageParser
