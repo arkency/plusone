@@ -12,10 +12,10 @@ class SlackController < ApplicationController
   end
 
   def alias
-    result = SlackAliasMessageParser.parse(message, trigger_word)
-    AliasToUserTag.new.call(result.fetch(:username), result.fetch(:user_alias))
+    username, user_alias = SlackAliasMessageParser.parse(message, trigger_word).values_at(:username, :user_alias)
+    AliasToUserTag.new.call(username, user_alias)
 
-    render json: SlackMessages.alias_success(result.fetch(:user_alias), result.fetch(:username))
+    render json: SlackMessages.alias_success(user_alias, username)
 
   rescue Parslet::ParseFailed
     render json: SlackMessages.raw("Invalid user tag")
