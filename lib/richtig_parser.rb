@@ -3,28 +3,34 @@
 require "parslet"
 
 class RichtigParser < Parslet::Parser
+
+  private attr_reader :trigger_word
+  def initialize(trigger_word)
+    @trigger_word = trigger_word
+  end
+
   rule(:space) { match["\s"].repeat(1) }
   rule(:space?) { space.maybe }
 
-  rule(:plus_one) { str("+1").as(:plus_one) }
+  rule(:trigger) { str(trigger_word).as(:trigger) }
   rule(:alias_keyword) { str("!alias").as(:alias_keyword) }
   rule(:username) { match["\\w"].repeat(1).as(:username) }
-  rule(:user_alias) {  match("[<@U[0-9A-Z]{8}>]").repeat(1).as(:user_alias) }
-  rule(:expected_sentence) { plus_one >> space? >> alias_keyword >> space? >> username >> space? >> user_alias >> space? }
+  rule(:user_alias) {  match("[<@U[0-9a-zA-Z]*>]").repeat(1).as(:user_alias) }
+  rule(:expected_sentence) { trigger >> space? >> alias_keyword >> space? >> username >> space? >> user_alias >> space? }
 
   root(:expected_sentence)
 end
 
 class RichtigTransformer < Parslet::Transform
-  rule(plus_one: simple(:plus_one)) { { :plus_one => plus_one } }
+  rule(trigger: simple(:trigger)) { { :trigger => trigger } }
   rule(alias_keyword: simple(:alias_keyword)) { { :alias_keyword => alias_keyword } }
   rule(username: simple(:username)) { { :username => username } }
   rule(user_alias: simple(:user_alias)) { { :user_alias => user_alias } }
 end
 
 class Richtig
-  def self.parse(text)
-    parser = RichtigParser.new
+  def self.parse(text, trigger_word)
+    parser = RichtigParser.new(trigger_word)
     transformer = RichtigTransformer.new
     transformer.apply(parser.parse(text))
   end
