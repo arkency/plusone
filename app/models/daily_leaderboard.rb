@@ -13,6 +13,7 @@ class DailyLeaderboard < ActiveRecord::Base
     return unless team.time_zone
     DailyLeaderboard.transaction do
       record = DailyLeaderboard.find_or_create_by!(
+        team_id: team.id,
         user_name: TeamMember.find(event.data.fetch(:recipient_id)).slack_user_name,
         date: event.valid_at.in_time_zone(team.time_zone).to_date
       ).lock!
