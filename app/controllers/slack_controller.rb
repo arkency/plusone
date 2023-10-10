@@ -1,6 +1,5 @@
 class SlackController < ApplicationController
   skip_before_action :verify_authenticity_token
-  around_action :store_team_metadata
 
   def plus
     recipient, sender =
@@ -62,9 +61,5 @@ class SlackController < ApplicationController
 
   def message
     params.fetch(:text)
-  end
-
-  def store_team_metadata(&block)
-    Rails.configuration.event_store.with_metadata({ team_id: slack_team_id }, &block)
   end
 end
