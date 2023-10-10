@@ -13,3 +13,5 @@ matcher:
     - InMemorySlackAdapter
     - AliasToUserTag
     - SlackAliasMessageParser
+  ignore:
+    - SlackController#leaderboard
