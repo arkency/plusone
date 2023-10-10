@@ -113,6 +113,12 @@ class PlusSomeoneTest < ActionDispatch::IntegrationTest
     assert_equal(plus_response_text, expected_plus_response)
   end
 
+  test 'stores team_id in event metadata' do
+    add_points
+    last_event = Rails.configuration.event_store.read.last
+    assert_equal('team_id1', last_event.metadata[:team_id])
+  end
+
   private
 
   def assert_team_exists_in_an_ugly_way_until_we_fix_api
