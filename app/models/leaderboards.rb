@@ -7,16 +7,24 @@ class Leaderboards
   def top_for_this_week
     DailyLeaderboard
       .for_this_week(@team_time_zone)
-      .top.of_team(@team_id)
-      .group_by(&:points)
+      .of_team(@team_id)
+      .group('user_name')
+      .order('sum_points desc')
+      .limit(10)
+      .sum('points')
+      .group_by(&:second)
       .then(&method(:format))
   end
 
   def top_for_this_month
     DailyLeaderboard
       .for_this_month(@team_time_zone)
-      .top.of_team(@team_id)
-      .group_by(&:points)
+      .of_team(@team_id)
+      .group('user_name')
+      .order('sum_points desc')
+      .limit(10)
+      .sum('points')
+      .group_by(&:second)
       .then(&method(:format))
   end
 
@@ -24,7 +32,7 @@ class Leaderboards
 
   def format(hash)
     hash
-      .map { |count, members| "#{count}: #{members.map(&:user_name).join(", ")}" }
+      .map { |count, members| "#{count}: #{members.map(&:first).join(", ")}" }
       .join("\n")
   end
 end
