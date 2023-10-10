@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_26_142011) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_10_095704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_26_142011) do
     t.string "user_alias"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "daily_leaderboard", force: :cascade do |t|
+    t.string "user_name"
+    t.date "date"
+    t.integer "points", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date", "user_name"], name: "index_daily_leaderboard_on_date_and_user_name", unique: true
   end
 
   create_table "event_store_events", force: :cascade do |t|
