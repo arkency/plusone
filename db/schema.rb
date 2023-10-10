@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_10_141748) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_10_145620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,7 +27,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_141748) do
     t.integer "points", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["date", "user_name"], name: "index_daily_leaderboard_on_date_and_user_name", unique: true
+    t.bigint "team_id", null: false
+    t.index ["team_id", "date", "user_name"], name: "index_daily_leaderboard_on_team_id_and_date_and_user_name", unique: true
+    t.index ["team_id"], name: "index_daily_leaderboard_on_team_id"
   end
 
   create_table "event_store_events", force: :cascade do |t|
@@ -81,6 +83,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_10_141748) do
     t.index ["sender_id"], name: "index_upvotes_on_sender_id"
   end
 
+  add_foreign_key "daily_leaderboard", "teams"
   add_foreign_key "upvotes", "team_members", column: "recipient_id"
   add_foreign_key "upvotes", "team_members", column: "sender_id"
 end
