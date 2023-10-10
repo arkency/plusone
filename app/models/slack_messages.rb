@@ -32,4 +32,16 @@ class SlackMessages
       "#{sender.slack_user_name}(#{sender.points}) gave +1 for #{recipient.slack_user_name}(#{recipient.points})"
     ).merge(parse: "none")
   end
+
+  def self.leaderboards(leaderboards)
+    raw(
+      [
+        "TOP for this week:",
+        leaderboards.top_for_this_week,
+        nil,
+        "TOP for this month:",
+        leaderboards.top_for_this_month
+      ].join("\n")
+    )
+  end
 end

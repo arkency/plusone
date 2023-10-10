@@ -4,6 +4,7 @@ class DailyLeaderboard < ActiveRecord::Base
   scope :for_this_week, -> (time_zone) { by_period(Time.now.in_time_zone(time_zone).beginning_of_week.to_date, 7.days) }
   scope :for_this_month, -> (time_zone) { by_period(Time.now.in_time_zone(time_zone).beginning_of_month.to_date, 1.month) }
   scope :top, -> (limit = 10) { order(points: :desc).limit(limit) }
+  scope :of_team, -> (team_id) { where(team_id: team_id) }
 
   def self.rebuild_read_model!(event_store = Rails.configuration.event_store)
     DailyLeaderboard.delete_all

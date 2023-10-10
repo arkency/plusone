@@ -33,6 +33,10 @@ class SlackController < ApplicationController
     render json: SlackMessages.raw(stats_query.given_upvotes)
   end
 
+  def leaderboard
+    render json: SlackMessages.leaderboards(Leaderboards.new(team))
+  end
+
   private
 
   def stats_query
