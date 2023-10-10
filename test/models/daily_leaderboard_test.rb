@@ -26,11 +26,10 @@ class DailyLeaderboardTest < ActiveSupport::TestCase
     assert_equal record.points, 2
   end
 
-  test "Daily leaderboard feature requires teams.time_zone to be set" do
+  test "Daily leaderboard feature currently requires teams.time_zone to be set" do
     team = Team.register("external_id", "arkency")
 
     GiveUpvote.new.call("Albert", "+1 Alfred", "+1", team)
-    record = DailyLeaderboard.last
 
     assert_equal 0, DailyLeaderboard.count
   end
