@@ -12,7 +12,8 @@ class LeaderboardsTest < ActiveSupport::TestCase
     GiveUpvote.new.call('dudu', '+1 kaka', '+1', team)
     GiveUpvote.new.call('kaka', '+1 dudu', '+1', team)
 
-    assert_equal <<~RESULT.strip, Leaderboards.new(team).top_for_this_month
+    assert_equal({ 2 => ["kaka"], 1 => ["dudu"] }, Leaderboards.new(team).top_for_this_month)
+    assert_equal <<~RESULT.strip, Leaderboards::TextPresenter.new(Leaderboards.new(team)).top_for_this_month
       2: kaka
       1: dudu
     RESULT
@@ -29,7 +30,8 @@ class LeaderboardsTest < ActiveSupport::TestCase
     GiveUpvote.new.call('dudu', '+1 kaka', '+1', team)
     GiveUpvote.new.call('kaka', '+1 dudu', '+1', team)
 
-    assert_equal <<~RESULT.strip, Leaderboards.new(team).top_for_this_week
+    assert_equal({ 2 => ["kaka"], 1 => ["dudu"] }, Leaderboards.new(team).top_for_this_week)
+    assert_equal <<~RESULT.strip, Leaderboards::TextPresenter.new(Leaderboards.new(team)).top_for_this_week
       2: kaka
       1: dudu
     RESULT

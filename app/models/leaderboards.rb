@@ -25,12 +25,23 @@ class Leaderboards
       .limit(10)
       .sum('points')
       .group_by(&:second)
-      .then(&method(:format))
+      .map { |points, members| [points, members.map(&:first)] }.to_h
   end
 
-  def format(hash)
-    hash
-      .map { |count, members| "#{count}: #{members.map(&:first).join(", ")}" }
-      .join("\n")
+  class TextPresenter
+    def initialize(leaderboards)
+      @leaderboards = leaderboards
+    end
+
+    def method_missing(m, *args, &block)
+      @leaderboards.respond_to?(m) ? format(@leaderboards.public_send(m)) : super
+    end
+
+    private
+    def format(hash)
+      hash
+        .map { |count, members| "#{count}: #{members.join(", ")}" }
+        .join("\n")
+    end
   end
 end

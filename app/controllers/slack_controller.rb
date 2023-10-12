@@ -34,7 +34,7 @@ class SlackController < ApplicationController
   end
 
   def leaderboard
-    render json: SlackMessages.leaderboards(Leaderboards.new(team))
+    render json: SlackMessages.leaderboards(Leaderboards::TextPresenter(Leaderboards.new(team)))
   end
 
   private
