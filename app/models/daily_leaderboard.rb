@@ -1,5 +1,5 @@
 class DailyLeaderboard < ActiveRecord::Base
-  self.table_name = 'daily_leaderboard'
+  self.table_name = 'daily_statistics'
   scope :by_period, -> (starting_date, duration) { where('date >= ? and date < ?', starting_date, starting_date + duration) }
   scope :for_this_week, -> (time_zone) { by_period(Time.now.in_time_zone(time_zone).beginning_of_week.to_date, 7.days) }
   scope :for_this_month, -> (time_zone) { by_period(Time.now.in_time_zone(time_zone).beginning_of_month.to_date, 1.month) }
