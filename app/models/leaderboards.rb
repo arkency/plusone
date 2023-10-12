@@ -1,7 +1,8 @@
 class Leaderboards
-  def initialize(team)
+  def initialize(team, limit = 10)
     @team_time_zone = team.time_zone
     @team_scope = DailyStatistic.of_team(team.id)
+    @limit = limit
   end
 
   def top_for_this_week
@@ -22,7 +23,7 @@ class Leaderboards
     scope
       .group('user_name')
       .order('sum_points desc')
-      .limit(10)
+      .limit(@limit)
       .sum('points')
       .group_by(&:second)
       .map { |points, members| [points, members.map(&:first)] }.to_h
@@ -38,6 +39,7 @@ class Leaderboards
     end
 
     private
+
     def format(hash)
       hash
         .map { |count, members| "#{count}: #{members.join(", ")}" }
