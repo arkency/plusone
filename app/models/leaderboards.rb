@@ -1,25 +1,25 @@
 class Leaderboards
   def initialize(team)
-    @team_id = Integer(team.id)
     @team_time_zone = team.time_zone
+    @team_scope = DailyStatistic.of_team(team.id)
   end
 
   def top_for_this_week
-    DailyStatistic
-      .for_this_week(@team_time_zone)
-      .of_team(@team_id)
-      .group('user_name')
-      .order('sum_points desc')
-      .limit(10)
-      .sum('points')
-      .group_by(&:second)
-      .then(&method(:format))
+    aggreated_data(@team_scope.for_this_week(@team_time_zone))
   end
 
   def top_for_this_month
-    DailyStatistic
-      .for_this_month(@team_time_zone)
-      .of_team(@team_id)
+    aggreated_data(@team_scope.for_this_month(@team_time_zone))
+  end
+
+  def top_for_this_year
+    aggreated_data(@team_scope.for_this_year(@team_time_zone))
+  end
+
+  private
+
+  def aggreated_data(scope)
+    scope
       .group('user_name')
       .order('sum_points desc')
       .limit(10)
@@ -27,8 +27,6 @@ class Leaderboards
       .group_by(&:second)
       .then(&method(:format))
   end
-
-  private
 
   def format(hash)
     hash
