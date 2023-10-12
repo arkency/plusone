@@ -17,6 +17,14 @@ class Leaderboards
     aggreated_data(@team_scope.for_this_year(@team_time_zone))
   end
 
+  def top_for_month(year, month)
+    aggreated_data(@team_scope.for_month(year, month, @team_time_zone))
+  end
+
+  def top_for_year(year)
+    aggreated_data(@team_scope.for_year(year, @team_time_zone))
+  end
+
   private
 
   def aggreated_data(scope)
