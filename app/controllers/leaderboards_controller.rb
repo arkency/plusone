@@ -6,5 +6,7 @@ class LeaderboardsController < ApplicationController
     else
       @leaderboard = Leaderboards.new(team, nil).top_for_year(params[:year])
     end
+  rescue ArgumentError
+    raise ActionController::RoutingError, 'Invalid time period'
   end
 end
