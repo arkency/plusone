@@ -40,7 +40,10 @@ class SlackMessages
         leaderboards.top_for_this_week,
         nil,
         "TOP for this month:",
-        leaderboards.top_for_this_month
+        leaderboards.top_for_this_month,
+        nil,
+        "TOP for this year:",
+        leaderboards.top_for_this_year
       ].join("\n")
     )
   end
