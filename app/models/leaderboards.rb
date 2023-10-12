@@ -5,7 +5,7 @@ class Leaderboards
   end
 
   def top_for_this_week
-    DailyLeaderboard
+    DailyStatistic
       .for_this_week(@team_time_zone)
       .of_team(@team_id)
       .group('user_name')
@@ -17,7 +17,7 @@ class Leaderboards
   end
 
   def top_for_this_month
-    DailyLeaderboard
+    DailyStatistic
       .for_this_month(@team_time_zone)
       .of_team(@team_id)
       .group('user_name')
