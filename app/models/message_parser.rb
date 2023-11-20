@@ -14,8 +14,7 @@ class MessageParser
   attr_accessor :text, :trigger_word
 
   def extract_remaining_text
-    beginning = trigger_word.size
-    text[beginning..text.size - 1]
+    text[trigger_word.length..]
   end
 
   def extract_and_clean_first_word(remaining_text)
