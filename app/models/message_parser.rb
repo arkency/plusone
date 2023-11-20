@@ -5,8 +5,7 @@ class MessageParser
   end
 
   def recipient_name
-    remaining_text = extract_remaining_text
-    extract_and_clean_first_word(remaining_text)
+    extract_and_clean_first_word(extract_remaining_text)
   end
 
   private
