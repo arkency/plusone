@@ -72,6 +72,16 @@ class AliasesTest < ActionDispatch::IntegrationTest
     assert_equal(response_text, "Nope... not gonna happen.")
   end
 
+  test "add points for alias followed by ," do
+    add_points
+    alias_user_name("user_name2", "<@U026BA51D>")
+
+    add_points("<@U026BA51D>,")
+    see_stats
+
+    assert_equal("2: user_name2\n0: user_name1", response_text)
+  end
+
   private
 
   def see_stats
@@ -80,7 +90,8 @@ class AliasesTest < ActionDispatch::IntegrationTest
 
   def add_points(recipient = "user_name2")
     post "/slack/plus",
-         params: webhook_params(trigger_word: "+1", text: "+1 #{recipient}", user_name: "user_name1", user_id: "user_id1")
+         params:
+           webhook_params(trigger_word: "+1", text: "+1 #{recipient}", user_name: "user_name1", user_id: "user_id1")
   end
 
   def alias_user_name(username, user_alias)
