@@ -19,6 +19,7 @@ class MessageParser
   end
 
   def extract_and_clean_first_word(remaining_text)
-    remaining_text.strip.split.first&.chomp(",") || ""
+    first_word = remaining_text.strip.split.first
+    first_word ? first_word.chomp(",") : ""
   end
 end
