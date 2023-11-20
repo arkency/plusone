@@ -10,3 +10,11 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+class ActionDispatch::IntegrationTest
+  private
+
+  def response_text
+    JSON(response.body)["text"]
+  end
+end
