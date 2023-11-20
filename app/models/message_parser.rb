@@ -5,12 +5,20 @@ class MessageParser
   end
 
   def recipient_name
-    beginning = trigger_word.size
-    remaining = text[beginning..text.size - 1]
-    remaining.strip.split.first&.chomp(",") || ""
+    remaining_text = extract_remaining_text
+    extract_and_clean_first_word(remaining_text)
   end
 
   private
 
   attr_accessor :text, :trigger_word
+
+  def extract_remaining_text
+    beginning = trigger_word.size
+    text[beginning..text.size - 1]
+  end
+
+  def extract_and_clean_first_word(remaining_text)
+    remaining_text.strip.split.first&.chomp(",") || ""
+  end
 end
