@@ -43,13 +43,11 @@ class AliasesTest < ActionDispatch::IntegrationTest
 
     assert_equal(response_text, "<@U026BA51D> is now an alias to user_name2")
 
-    post "/slack/plus",
-         params:
-           webhook_params(trigger_word: "+1", text: "+1 <@U026BA51D>", user_name: "user_name1", user_id: "user_id1")
+    add_points("<@U026BA51D>")
 
     assert_equal(response_text, "user_name1(0) gave +1 for user_name2(2)")
 
-    post "/slack/plus", params: webhook_params(trigger_word: "+1", text: "+1 !stats")
+    see_stats
 
     assert_equal("2: user_name2\n0: user_name1", response_text)
   end
@@ -76,9 +74,13 @@ class AliasesTest < ActionDispatch::IntegrationTest
 
   private
 
-  def add_points
+  def see_stats
+    post "/slack/plus", params: webhook_params(trigger_word: "+1", text: "+1 !stats")
+  end
+
+  def add_points(recipient = "user_name2")
     post "/slack/plus",
-         params: webhook_params(trigger_word: "+1", text: "+1 user_name2", user_name: "user_name1", user_id: "user_id1")
+         params: webhook_params(trigger_word: "+1", text: "+1 #{recipient}", user_name: "user_name1", user_id: "user_id1")
   end
 
   def alias_user_name(username, user_alias)
